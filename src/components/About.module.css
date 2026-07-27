@@ -63,3 +63,28 @@
     margin-bottom: 16px;
   }
 }
+
+.signatureSection {
+  margin-top: 48px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  border-top: 1px solid var(--border);
+  padding-top: 36px;
+}
+
+.signatureWrapper {
+  width: 140px;
+  height: 60px;
+  color: var(--accent);
+}
+
+.handwrittenNote {
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: 19px;
+  color: var(--text-mid);
+  line-height: 1.5;
+  font-weight: 300;
+  max-width: 460px;
+}
