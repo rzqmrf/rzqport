@@ -81,18 +81,31 @@ export default function About() {
               "Thanks for stopping by! Let's build something remarkable together."
             </p>
             <div className={styles.signatureWrapper}>
-              <svg viewBox="0 0 140 60" width="100%" height="100%">
+              <svg viewBox="0 0 200 100" width="100%" height="100%">
+                {/* Stroke 1: Signature body */}
                 <motion.path
-                  d="M 15,45 C 10,25 35,5 30,35 C 28,45 42,50 45,35 C 47,25 50,45 55,45 C 60,35 65,45 70,45 C 75,30 80,45 85,45 C 90,30 98,45 105,40 C 110,35 125,50 135,25"
+                  d="M 75,30 C 65,22 55,25 55,42 L 55,78 M 55,45 C 55,30 65,10 75,10 C 85,10 82,32 75,45 C 68,58 55,48 55,48 C 55,48 62,38 72,40 C 82,42 78,54 86,40 C 90,32 94,48 98,40"
                   fill="none"
                   stroke="var(--accent)"
-                  strokeWidth="3"
+                  strokeWidth="3.5"
                   strokeLinecap="round"
                   strokeLinejoin="round"
                   initial={{ pathLength: 0 }}
                   whileInView={{ pathLength: 1 }}
                   viewport={{ once: true }}
-                  transition={{ duration: 1.6, delay: 0.5, ease: "easeInOut" }}
+                  transition={{ duration: 1.3, delay: 0.4, ease: "easeInOut" }}
+                />
+                {/* Stroke 2: Underline slash */}
+                <motion.path
+                  d="M 25,82 L 175,32"
+                  fill="none"
+                  stroke="var(--accent)"
+                  strokeWidth="3.5"
+                  strokeLinecap="round"
+                  initial={{ pathLength: 0 }}
+                  whileInView={{ pathLength: 1 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.7, delay: 1.6, ease: "easeOut" }}
                 />
               </svg>
             </div>
