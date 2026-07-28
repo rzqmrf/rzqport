@@ -34,7 +34,7 @@ const PROJECTS_DATA = [
     title: 'BALANG',
     category: 'Mobile',
     desc: 'A crowd-sourced mobile application built with Flutter to report, verify, and map lost & found items in Indonesian neighborhoods using geolocation.',
-    tech: ['Flutter', 'Firebase', 'Google Maps API', 'Figma'],
+    tech: ['Flutter', 'Firebase', 'Figma'],
     image: '/balang.png',
     link: '/work/balang',
   },
