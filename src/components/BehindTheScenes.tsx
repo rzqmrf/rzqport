@@ -6,14 +6,14 @@ import styles from './BehindTheScenes.module.css';
 const photos = [
   { 
     src: '/photo-beach.jpg', 
-    caption: 'Sunset vibes', 
+    caption: 'Campus life', 
     aspect: '16/10', 
     position: 'center 85%',
     story: 'Recharging by the coast. I find that taking steps back to observe natural horizons helps clear design blockages and brings fresh perspectives to layout problems.'
   },
   { 
     src: '/photo-campus.jpg', 
-    caption: 'Campus life', 
+    caption: 'Sunset vibes', 
     aspect: '3/4', 
     position: 'center',
     story: 'Electronic Engineering Polytechnic Institute of Surabaya (EEPIS/PENS). Navigating informatics assignments, user discovery workshops, and collaborating on academic projects.'
