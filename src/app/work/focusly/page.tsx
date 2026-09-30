@@ -1,8 +1,14 @@
+import type { Metadata } from 'next';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import Link from 'next/link';
 import Image from 'next/image';
 import styles from '../tanos-erp/CaseStudy.module.css';
+
+export const metadata: Metadata = {
+  title: 'Focusly Web App Case Study',
+  description: 'A modern, interactive task management web application featuring theme toggles, progress bars, and local storage persistence.',
+};
 
 export default function FocuslyCaseStudy() {
   return (

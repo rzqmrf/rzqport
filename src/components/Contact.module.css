@@ -138,6 +138,42 @@
   align-items: center;
 }
 
+.copyBtn {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  color: var(--text);
+  padding: 8px 16px;
+  border-radius: 100px;
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.05em;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.copyBtn:hover {
+  background: var(--accent);
+  color: #fff;
+  border-color: var(--accent);
+  transform: translateY(-2px);
+}
+
+.toast {
+  position: fixed;
+  bottom: 40px;
+  right: 40px;
+  background: #10B981;
+  color: #ffffff;
+  padding: 14px 24px;
+  border-radius: 100px;
+  font-family: var(--sans);
+  font-size: 13px;
+  font-weight: 600;
+  box-shadow: 0 20px 40px -10px rgba(16, 185, 129, 0.5);
+  z-index: 9999999;
+}
+
 @media (max-width: 860px) {
   .floatingPreview {
     display: none; /* Hide floating card on touch devices/tablets for performance */
@@ -164,5 +200,12 @@
   
   .label {
     margin-left: 16px;
+  }
+
+  .toast {
+    bottom: 24px;
+    right: 20px;
+    left: 20px;
+    text-align: center;
   }
 }

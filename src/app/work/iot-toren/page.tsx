@@ -1,8 +1,14 @@
+import type { Metadata } from 'next';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import Link from 'next/link';
 import Image from 'next/image';
 import styles from '../tanos-erp/CaseStudy.module.css';
+
+export const metadata: Metadata = {
+  title: 'Monitoring Toren IoT Case Study',
+  description: 'An IoT dashboard and hardware system utilizing ultrasonic sensors to monitor water tower levels and automate pumps.',
+};
 
 export default function MonitoringTorenCaseStudy() {
   return (

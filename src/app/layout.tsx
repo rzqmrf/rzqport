@@ -6,8 +6,51 @@ import ScrollToTopAirplane from '@/components/ScrollToTopAirplane';
 import ScrollPaperAirplane from '@/components/ScrollPaperAirplane';
 
 export const metadata: Metadata = {
-  title: "Muhammad Rozaq Ma'ruf — UI/UX Designer & Full-Stack Developer",
-  description: 'Portfolio of Muhammad Rozaq Ma\'ruf, UI/UX Designer and Full-Stack Developer. Designing intuitive digital experiences and building modern web applications.',
+  metadataBase: new URL('https://rozaqmaruf.dev'),
+  title: {
+    default: "Muhammad Rozaq Ma'ruf — UI/UX Designer & Full-Stack Developer",
+    template: "%s | Muhammad Rozaq Ma'ruf",
+  },
+  description: "Portfolio of Muhammad Rozaq Ma'ruf, UI/UX Designer and Full-Stack Developer. Designing intuitive digital experiences and building modern web applications.",
+  keywords: [
+    'UI/UX Designer',
+    'Full-Stack Developer',
+    'Frontend Developer',
+    'Muhammad Rozaq Maruf',
+    'Web Development',
+    'Figma',
+    'React',
+    'Next.js',
+    'Flutter',
+    'Laravel'
+  ],
+  authors: [{ name: "Muhammad Rozaq Ma'ruf", url: 'https://github.com/rzqmrf' }],
+  creator: "Muhammad Rozaq Ma'ruf",
+  openGraph: {
+    type: 'website',
+    locale: 'en_US',
+    url: 'https://rozaqmaruf.dev',
+    title: "Muhammad Rozaq Ma'ruf — UI/UX Designer & Full-Stack Developer",
+    description: "Designing intuitive digital experiences and building modern web applications.",
+    siteName: "Muhammad Rozaq Ma'ruf Portfolio",
+    images: [
+      {
+        url: '/hero.jpg',
+        width: 1200,
+        height: 630,
+        alt: "Muhammad Rozaq Ma'ruf Portfolio",
+      },
+    ],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: "Muhammad Rozaq Ma'ruf — UI/UX Designer & Full-Stack Developer",
+    description: "Designing intuitive digital experiences and building modern web applications.",
+    images: ['/hero.jpg'],
+  },
+  icons: {
+    icon: '/icon.png',
+  },
 };
 
 export default function RootLayout({
@@ -16,7 +59,14 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
+      <head>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `(function(){try{var t=localStorage.getItem('theme')||'dark';document.documentElement.setAttribute('data-theme',t);}catch(e){}})();`,
+          }}
+        />
+      </head>
       <body>
         <div
           style={{

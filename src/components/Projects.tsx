@@ -5,7 +5,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import styles from './Projects.module.css';
 
-interface ProjectData {
+export interface ProjectData {
   num: string;
   title: string;
   cat: string;
@@ -15,33 +15,33 @@ interface ProjectData {
   link: string;
 }
 
-const projects: ProjectData[] = [
+const featuredProjects: ProjectData[] = [
   {
     num: '01',
-    title: 'E-Reserv',
-    cat: 'Web App',
-    desc: 'Booking and schedule management system for sports facilities and shared spaces.',
-    tech: ['Figma', 'PHP', 'MySQL'],
-    image: '/reserv.jpg',
-    link: '/work/e-reserv',
+    title: 'Tanos ERP',
+    cat: 'Enterprise',
+    desc: 'Logistics dashboard designed for PT ILCS to monitor dispatch schedules and cargo fleet movements in real-time.',
+    tech: ['Figma', 'Laravel', 'Tailwind', 'MySQL'],
+    image: '/tanosss.png',
+    link: '/work/tanos-erp',
   },
   {
     num: '02',
-    title: 'BALANG',
-    cat: 'Mobile UX',
-    desc: 'Community lost-and-found mobile app focused on fast reporting and proximity alerts.',
-    tech: ['Figma', 'Product Design'],
-    image: '/balang.jpg',
-    link: '#',
+    title: 'E-Reserv',
+    cat: 'Web App',
+    desc: 'An integrated digital platform for sports field reservations connecting tenants and managers with slot automation.',
+    tech: ['Flutter', 'Laravel 12', 'MySQL', 'Midtrans'],
+    image: '/ereserv.png',
+    link: '/work/e-reserv',
   },
   {
     num: '03',
-    title: 'Monitoring Toren',
-    cat: 'IoT Dashboard',
-    desc: 'Real-time water tower telemetry panel with sensor readings and cost estimation.',
-    tech: ['Node.js', 'Hardware', 'Figma'],
-    image: '/toren.png',
-    link: '#',
+    title: 'BALANG',
+    cat: 'Mobile UX',
+    desc: 'Community crowd-sourced mobile app built with Flutter to report, verify, and map lost & found items.',
+    tech: ['Flutter', 'Firebase', 'Figma'],
+    image: '/balang.png',
+    link: '/work/balang',
   },
 ];
 
@@ -50,14 +50,14 @@ function TiltCard({ project }: { project: ProjectData }) {
   const [transform, setTransform] = useState('perspective(800px) rotateX(0deg) rotateY(0deg)');
 
   const handleMouseMove = (e: MouseEvent<HTMLDivElement>) => {
-    if (!cardRef.current) return;
+    if (!cardRef.current || window.matchMedia('(hover: none)').matches) return;
     const rect = cardRef.current.getBoundingClientRect();
     const x = e.clientX - rect.left;
     const y = e.clientY - rect.top;
     const centerX = rect.width / 2;
     const centerY = rect.height / 2;
-    const rotateX = ((y - centerY) / centerY) * -6;
-    const rotateY = ((x - centerX) / centerX) * 6;
+    const rotateX = ((y - centerY) / centerY) * -5;
+    const rotateY = ((x - centerX) / centerX) * 5;
     setTransform(`perspective(800px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`);
   };
 
@@ -72,13 +72,19 @@ function TiltCard({ project }: { project: ProjectData }) {
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
       style={{ transform }}
-      initial={{ opacity: 0, y: 40 }}
+      initial={{ opacity: 0, y: 35 }}
       whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-80px" }}
-      transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+      viewport={{ once: true, margin: '-60px' }}
+      transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
     >
       <div className={styles.cardImage}>
-        <Image src={project.image} alt={project.title} fill style={{ objectFit: 'cover' }} />
+        <Image
+          src={project.image}
+          alt={project.title}
+          fill
+          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+          style={{ objectFit: 'cover' }}
+        />
         <div className={styles.cardOverlay}>
           <span className={styles.cardNum}>{project.num}</span>
         </div>
@@ -91,7 +97,11 @@ function TiltCard({ project }: { project: ProjectData }) {
         <p className={styles.cardDesc}>{project.desc}</p>
         <div className={styles.cardFooter}>
           <div className={styles.tags}>
-            {project.tech.map(t => <span key={t} className="tag">{t}</span>)}
+            {project.tech.map((t) => (
+              <span key={t} className="tag">
+                {t}
+              </span>
+            ))}
           </div>
           {project.link !== '#' && (
             <Link href={project.link} className={styles.cardLink}>
@@ -106,17 +116,25 @@ function TiltCard({ project }: { project: ProjectData }) {
 
 export default function Projects() {
   return (
-    <section id="work">
-      <div className="wrap">
-        <div className="section-head">
-          <div className="eyebrow">Selected Work</div>
-          <h2 className="section-title">More projects.</h2>
-          <p className="section-note">Things I've designed and built — from enterprise dashboards to mobile concepts.</p>
-        </div>
+    <section id="featured" className="wrap" style={{ scrollMarginTop: '100px' }}>
+      <div className="section-head">
+        <div className="eyebrow">Selected Work</div>
+        <h2 className="section-title">Featured projects.</h2>
+        <p className="section-note">
+          A selection of enterprise dashboards, mobile applications, and web platforms built to solve real-world problems.
+        </p>
+      </div>
 
-        <div className={styles.grid}>
-          {projects.map(p => <TiltCard key={p.num} project={p} />)}
-        </div>
+      <div className={styles.grid}>
+        {featuredProjects.map((p) => (
+          <TiltCard key={p.num} project={p} />
+        ))}
+      </div>
+
+      <div className={styles.allProjectsWrapper}>
+        <Link href="/work" className="btn btn--outline">
+          Explore all projects & case studies →
+        </Link>
       </div>
     </section>
   );

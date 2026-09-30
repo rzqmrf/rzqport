@@ -1,8 +1,14 @@
+import type { Metadata } from 'next';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import Link from 'next/link';
 import Image from 'next/image';
 import styles from '../tanos-erp/CaseStudy.module.css';
+
+export const metadata: Metadata = {
+  title: 'E-Reserv Case Study',
+  description: 'An integrated digital platform for sports field reservations connecting tenants and managers with slot automation.',
+};
 
 export default function EReservCaseStudy() {
   return (

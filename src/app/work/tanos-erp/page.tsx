@@ -1,8 +1,14 @@
+import type { Metadata } from 'next';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import Link from 'next/link';
 import Image from 'next/image';
 import styles from './CaseStudy.module.css';
+
+export const metadata: Metadata = {
+  title: 'Tanos ERP Case Study',
+  description: 'Enterprise logistics dashboard redesign for PT Integrasi Logistik Cipta Solusi (ILCS) to streamline cargo dispatch operations.',
+};
 
 export default function TanosErpCaseStudy() {
   return (

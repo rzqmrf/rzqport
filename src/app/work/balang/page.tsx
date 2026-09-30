@@ -1,8 +1,14 @@
+import type { Metadata } from 'next';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import Link from 'next/link';
 import Image from 'next/image';
 import styles from '../tanos-erp/CaseStudy.module.css';
+
+export const metadata: Metadata = {
+  title: 'BALANG App Case Study',
+  description: 'A crowd-sourced mobile application built with Flutter to report, verify, and map lost & found items using geolocation.',
+};
 
 export default function BalangCaseStudy() {
   return (

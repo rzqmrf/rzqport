@@ -1,5 +1,6 @@
 'use client';
 import { motion } from 'framer-motion';
+import Image from 'next/image';
 import styles from './About.module.css';
 
 export default function About() {
@@ -13,16 +14,13 @@ export default function About() {
           viewport={{ once: true, margin: "-100px" }}
           transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
         >
-          <motion.img 
+          <Image 
             src="/hero.jpg" 
-            alt="Rozaq portrait" 
-            initial={{ scale: 1.18 }}
-            whileInView={{ scale: 1 }}
-            viewport={{ once: true }}
-            transition={{ duration: 1.4, ease: [0.16, 1, 0.3, 1] }}
+            alt="Muhammad Rozaq Ma'ruf" 
+            fill
+            priority
+            sizes="(max-width: 860px) 100vw, 400px"
             style={{ 
-              width: '100%', 
-              height: '100%', 
               objectFit: 'cover' 
             }} 
           />

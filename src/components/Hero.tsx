@@ -46,6 +46,16 @@ export default function Hero() {
   return (
     <header className={styles.hero}>
       <div className={styles.content}>
+        <motion.div
+          className={styles.badge}
+          initial={{ opacity: 0, y: -10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+        >
+          <span className={styles.live} />
+          <span>Available for opportunities</span>
+        </motion.div>
+
         <div className={styles.nameBlock}>
           <div className={styles.nameRow}>
             {firstName.split('').map((ch, i) => (
@@ -88,7 +98,7 @@ export default function Hero() {
           animate={{ opacity: 1 }}
           transition={{ delay: 0.9, duration: 0.8 }}
         >
-          UI/UX & Frontend Developer
+          UI/UX Designer & Full-Stack Developer crafting intuitive, high-performance digital experiences.
         </motion.p>
 
         <motion.div
@@ -98,10 +108,13 @@ export default function Hero() {
           transition={{ delay: 1.05, duration: 0.6 }}
         >
           <Magnetic>
-            <a href="#featured" className="btn btn--fill">See my work</a>
+            <a href="#featured" className="btn btn--fill">See my work ↓</a>
           </Magnetic>
           <Magnetic>
             <a href="/about" className="btn btn--outline">About me</a>
+          </Magnetic>
+          <Magnetic>
+            <a href="/contact" className="btn btn--outline">Get in touch</a>
           </Magnetic>
         </motion.div>
       </div>
