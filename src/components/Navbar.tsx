@@ -68,7 +68,7 @@ export default function Navbar() {
         <div className={styles.headerInner}>
           <Link href="/" className={styles.logoGroup} onClick={() => setIsOpen(false)}>
             <span className={styles.logoMonogram}>
-              r<span>.</span>
+              R<span>.</span>
             </span>
             <AnimatePresence>
               {isOpen && (
