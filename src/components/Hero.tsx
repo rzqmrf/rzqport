@@ -1,6 +1,7 @@
 'use client';
 import { useRef } from 'react';
 import { motion, useMotionValue, useSpring } from 'framer-motion';
+import Link from 'next/link';
 import styles from './Hero.module.css';
 
 function Magnetic({ children }: { children: React.ReactElement }) {
@@ -54,7 +55,7 @@ export default function Hero() {
                 className={styles.letter}
                 initial={{ y: '100%', opacity: 0 }}
                 animate={{ y: 0, opacity: 1, transition: { delay: 0.15 + i * 0.03, duration: 0.6, ease: [0.16, 1, 0.3, 1] as const } }}
-                whileHover={{ y: -18, scale: 1.15, rotate: 6, color: '#8B5CF6', transition: { type: 'spring', stiffness: 300, damping: 10 } }}
+                whileHover={{ y: -18, scale: 1.15, rotate: 6, transition: { type: 'spring', stiffness: 300, damping: 10 } }}
               >{ch}</motion.span>
             ))}
           </div>
@@ -76,7 +77,7 @@ export default function Hero() {
                 className={`${styles.letter} ${styles.serif}`}
                 initial={{ y: '100%', opacity: 0 }}
                 animate={{ y: 0, opacity: 1, transition: { delay: 0.6 + i * 0.03, duration: 0.6, ease: [0.16, 1, 0.3, 1] as const } }}
-                whileHover={{ y: -18, scale: 1.15, rotate: 6, color: '#8B5CF6', transition: { type: 'spring', stiffness: 300, damping: 10 } }}
+                whileHover={{ y: -18, scale: 1.15, rotate: 6, transition: { type: 'spring', stiffness: 300, damping: 10 } }}
               >{ch}</motion.span>
             ))}
           </div>
@@ -98,13 +99,19 @@ export default function Hero() {
           transition={{ delay: 1.05, duration: 0.6 }}
         >
           <Magnetic>
-            <a href="#featured" className="btn btn--fill">See my work ↓</a>
+            <a
+              href="/resume.pdf"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="btn btn--fill"
+            >
+              Resume ↗
+            </a>
           </Magnetic>
           <Magnetic>
-            <a href="/about" className="btn btn--outline">About me</a>
-          </Magnetic>
-          <Magnetic>
-            <a href="/contact" className="btn btn--outline">Get in touch</a>
+            <Link href="/contact" className="btn btn--outline">
+              Get in touch
+            </Link>
           </Magnetic>
         </motion.div>
       </div>

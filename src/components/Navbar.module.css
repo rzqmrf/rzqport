@@ -1,161 +1,278 @@
-.navContainer {
+/* ======= TOP FIXED HEADER ======= */
+.header {
   position: fixed;
-  top: 24px;
+  top: 0;
   left: 0;
   right: 0;
-  z-index: 100;
-  display: flex;
-  justify-content: center;
-  padding: 0 var(--gutter);
-  pointer-events: none; /* Let clicks pass through container */
-  transition: top 0.4s var(--ease-out);
+  z-index: 1000;
+  padding: 24px var(--gutter);
+  pointer-events: none;
+  transition: padding 0.35s var(--ease-out), background-color 0.35s ease, backdrop-filter 0.35s ease, border-color 0.35s ease;
 }
 
-.scrolledContainer {
-  top: 16px;
-}
-
-.navPill {
-  display: flex;
-  align-items: center;
-  background: color-mix(in srgb, var(--bg-elevated) 65%, transparent);
+.header.scrolled {
+  padding: 16px var(--gutter);
+  background: color-mix(in srgb, var(--bg) 80%, transparent);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
-  border: 1px solid var(--border);
-  border-radius: 100px;
-  padding: 6px 6px 6px 20px;
-  gap: 28px;
-  box-shadow: 
-    0 20px 40px -10px rgba(0, 0, 0, 0.4),
-    0 0 0 1px rgba(255, 255, 255, 0.02);
-  pointer-events: auto; /* Re-enable clicks inside pill */
-  transition: all 0.4s var(--ease-out);
+  border-bottom: 1px solid var(--border);
 }
 
-.logo {
+.headerInner {
+  max-width: var(--max-w);
+  margin: 0 auto;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* ======= LOGO GROUP ======= */
+.logoGroup {
+  display: inline-flex;
+  align-items: center;
+  gap: 14px;
+  pointer-events: auto;
+  text-decoration: none;
+  user-select: none;
+}
+
+.logoMonogram {
   font-family: var(--mono);
-  font-size: 15px;
-  font-weight: 700;
+  font-size: 25px;
+  font-weight: 800;
   color: var(--text);
-  letter-spacing: -0.02em;
+  letter-spacing: -0.03em;
+  line-height: 1;
 }
 
-.logo span {
+.logoMonogram span {
   color: var(--accent);
 }
 
-.linksWrapper {
-  display: flex;
-}
-
-.links {
-  display: flex;
-  align-items: center;
-  position: relative;
-  gap: 4px;
-}
-
-.navLink {
-  position: relative;
-  font-size: 13px;
-  font-weight: 500;
+.logoFullName {
+  font-family: var(--display);
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
   color: var(--text-mid);
-  padding: 8px 16px;
-  transition: color 0.3s ease;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 100px;
+  text-transform: lowercase;
 }
 
-.navLink:hover {
-  color: var(--text);
-}
-
-.activeLink {
-  color: var(--text);
-}
-
-.hoverBg {
-  position: absolute;
-  inset: 0;
-  background: color-mix(in srgb, var(--text) 6%, transparent);
-  border-radius: 100px;
-  z-index: -1;
-}
-
-.activeDot {
-  position: absolute;
-  bottom: 0px;
-  width: 4px;
-  height: 4px;
-  border-radius: 50%;
-  background: var(--accent);
-}
-
-.rightGroup {
+/* ======= RIGHT ACTIONS ======= */
+.rightActions {
   display: flex;
   align-items: center;
   gap: 12px;
+  pointer-events: auto;
 }
 
-/* Theme Switcher Styles */
-.themeSwitcher {
-  display: flex;
-  border: 1px solid var(--border);
-  border-radius: 100px;
-  padding: 2px;
-  background: color-mix(in srgb, var(--text) 3%, transparent);
-  position: relative;
-  overflow: hidden;
-}
-
-.themeBtn {
-  font-size: 12px;
-  color: var(--text-muted);
-  width: 28px;
-  height: 28px;
+/* Theme Toggle Button */
+.themeToggleBtn {
+  width: 48px;
+  height: 48px;
   border-radius: 50%;
+  border: 1px solid var(--border);
+  background: color-mix(in srgb, var(--bg-elevated) 70%, transparent);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  color: var(--text-mid);
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: color 0.3s var(--ease-out);
-  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+.themeToggleBtn:hover {
+  color: var(--text);
+  border-color: var(--text-mid);
+  transform: scale(1.05);
+}
+
+.themeIcon {
+  font-size: 18px;
   line-height: 1;
-  border: none;
-  background: none;
+}
+
+/* Bento / Hamburger Toggle Button */
+.menuToggleBtn {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  border: 1px solid var(--border);
+  background: color-mix(in srgb, var(--bg-elevated) 70%, transparent);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  color: var(--text);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+.menuToggleBtn:hover {
+  border-color: var(--accent);
+  box-shadow: 0 0 25px -4px var(--accent-soft);
+  transform: scale(1.05);
+}
+
+.menuToggleBtn.menuOpen {
+  background: var(--text);
+  color: var(--bg);
+  border-color: var(--text);
+}
+
+/* 6-dot Bento Icon (Inspirasi itssharl.ee :::) */
+.bentoIcon {
+  display: grid;
+  grid-template-columns: repeat(3, 5.5px);
+  grid-template-rows: repeat(2, 5.5px);
+  gap: 4.5px;
+  align-items: center;
+  justify-content: center;
+}
+
+.dot {
+  width: 5.5px;
+  height: 5.5px;
+  border-radius: 50%;
+  background: currentColor;
+  transition: background-color 0.2s ease;
+}
+
+/* ======= FULLSCREEN OVERLAY DRAWER ======= */
+.overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 999;
+  background: color-mix(in srgb, var(--bg) 95%, transparent);
+  backdrop-filter: blur(36px);
+  -webkit-backdrop-filter: blur(36px);
+  display: flex;
+  align-items: center;
+  padding: 130px var(--gutter) 60px;
+  overflow-y: auto;
+}
+
+.overlayContent {
+  max-width: var(--max-w);
+  margin: 0 auto;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-height: 100%;
+}
+
+/* Large Numbered Nav List (01 HOME, 02 WORK, etc.) */
+.navLinksList {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  margin-bottom: 64px;
+}
+
+.navItemRow {
+  display: flex;
+  align-items: baseline;
+  gap: 24px;
   cursor: pointer;
 }
 
-.themeBtn:hover {
+.navItemNum {
+  font-family: var(--mono);
+  font-size: clamp(13px, 1.8vw, 18px);
+  font-weight: 500;
+  color: var(--text-muted);
+  transition: color 0.3s ease;
+  user-select: none;
+}
+
+.navItemTitle {
+  font-family: var(--display);
+  font-size: clamp(48px, 8vw, 96px);
+  font-weight: 800;
+  letter-spacing: -0.04em;
+  line-height: 0.95;
+  color: var(--text-mid);
+  text-decoration: none;
+  transition: color 0.3s ease, transform 0.4s var(--ease-out);
+  display: inline-block;
+}
+
+.navItemRow:hover .navItemTitle {
+  color: var(--text);
+  transform: translateX(18px);
+}
+
+.navItemRow:hover .navItemNum {
+  color: var(--accent);
+}
+
+.activeNavItemTitle {
   color: var(--text);
 }
 
-.themeActiveBg {
-  position: absolute;
-  inset: 0;
-  background: var(--text);
-  border-radius: 50%;
-  z-index: 1;
+/* Footer Links below Menu (instagram, github, etc.) */
+.socialFooter {
+  display: flex;
+  gap: 32px;
+  flex-wrap: wrap;
+  border-top: 1px solid var(--border);
+  padding-top: 28px;
 }
 
-.activeThemeText {
-  color: var(--bg) !important;
+.socialLink {
+  font-family: var(--display);
+  font-size: clamp(14px, 1.8vw, 17px);
+  font-weight: 600;
+  color: var(--text-muted);
+  text-decoration: none;
+  transition: color 0.25s ease, transform 0.25s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
 }
 
-.iconLabel {
-  position: relative;
-  z-index: 2;
+.socialLink:hover {
+  color: var(--accent);
+  transform: translateY(-2px);
 }
 
-@media (max-width: 600px) {
-  .navPill {
-    padding: 6px 6px 6px 16px;
-    gap: 16px;
+/* ======= MOBILE RESPONSIVE ======= */
+@media (max-width: 768px) {
+  .header {
+    padding: 20px 20px;
   }
   
-  .navLink {
-    padding: 8px 12px;
-    font-size: 12px;
+  .header.scrolled {
+    padding: 14px 20px;
+  }
+
+  .overlay {
+    padding: 110px 20px 48px;
+  }
+
+  .navLinksList {
+    gap: 14px;
+    margin-bottom: 44px;
+  }
+
+  .navItemRow {
+    gap: 16px;
+  }
+
+  .navItemTitle {
+    font-size: clamp(38px, 12vw, 64px);
+  }
+
+  .navItemRow:hover .navItemTitle {
+    transform: translateX(8px);
+  }
+
+  .socialFooter {
+    gap: 18px;
   }
 }
