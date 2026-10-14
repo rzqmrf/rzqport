@@ -19,8 +19,28 @@ const PROJECTS_DATA = [
     link: '/work/tanos-erp',
   },
   {
-    id: 'e-reserv',
+    id: 'manfince',
     num: '02',
+    title: 'Manfince',
+    category: 'Web App',
+    desc: 'Modern personal finance & budget management web app featuring expense tracking, recurring bills, automated split-bill calculator, and savings target allocations.',
+    tech: ['Next.js 16', 'React 19', 'Tailwind CSS v4', 'TypeScript', 'Lucide'],
+    image: '/manfince.svg',
+    link: 'https://github.com/rzqmrf/Manfince',
+  },
+  {
+    id: 'flixora',
+    num: '03',
+    title: 'Flixora',
+    category: 'Web App',
+    desc: 'Netflix-inspired movie streaming platform featuring TMDB catalog integration, genre filtering, custom video player (WatchPlayer), watchlist, and multi-profile accounts.',
+    tech: ['Next.js 16', 'React 19', 'Tailwind CSS v4', 'TypeScript', 'TMDB API'],
+    image: '/flixora.svg',
+    link: 'https://github.com/rzqmrf/Flixora',
+  },
+  {
+    id: 'e-reserv',
+    num: '04',
     title: 'E-Reserv',
     category: 'Web App',
     desc: 'An integrated digital platform for sports field reservations connecting tenants and managers via a Flutter app & Laravel admin panel.',
@@ -29,8 +49,28 @@ const PROJECTS_DATA = [
     link: '/work/e-reserv',
   },
   {
+    id: 'sistem-kasir',
+    num: '05',
+    title: 'Sistem Kasir (POS)',
+    category: 'Enterprise',
+    desc: 'Comprehensive Point of Sale (POS) cashier application built with Laravel and Inertia.js React, featuring product inventory control, real-time sales transactions, and reporting.',
+    tech: ['Laravel', 'Inertia.js', 'React', 'Tailwind CSS', 'Vite'],
+    image: '/sistem-kasir.svg',
+    link: 'https://github.com/rzqmrf/Sistem-Kasir',
+  },
+  {
+    id: 'stylebarber',
+    num: '06',
+    title: 'StyleBarber',
+    category: 'Web App',
+    desc: 'Barbershop digital reservation and queue booking management web application backed by Prisma ORM and React 19.',
+    tech: ['Next.js', 'React 19', 'Prisma ORM', 'Tailwind CSS'],
+    image: '/stylebarber.svg',
+    link: 'https://github.com/rzqmrf/StyleBarber',
+  },
+  {
     id: 'balang',
-    num: '03',
+    num: '07',
     title: 'BALANG',
     category: 'Mobile',
     desc: 'A crowd-sourced mobile application built with Flutter to report, verify, and map lost & found items in Indonesian neighborhoods using geolocation.',
@@ -40,7 +80,7 @@ const PROJECTS_DATA = [
   },
   {
     id: 'iot-toren',
-    num: '04',
+    num: '08',
     title: 'Monitoring Toren',
     category: 'IoT',
     desc: 'An IoT dashboard and hardware system utilizing ultrasonic sensors to monitor water tower levels, trigger automated pumps, and log real-time consumption data.',
@@ -50,13 +90,23 @@ const PROJECTS_DATA = [
   },
   {
     id: 'focusly',
-    num: '05',
+    num: '09',
     title: 'Focusly',
     category: 'Web App',
     desc: 'A modern, interactive task management web application featuring dark/light mode toggles, automated progress bars, and local storage persistence.',
     tech: ['HTML5', 'CSS3', 'JavaScript', 'LocalStorage'],
     image: '/focusly.png',
     link: '/work/focusly',
+  },
+  {
+    id: 'travelbudget',
+    num: '10',
+    title: 'Travelbudget',
+    category: 'Web App',
+    desc: 'Travel expense estimator and trip budget planner web app equipped with automated itinerary expense calculations and PDF export reports.',
+    tech: ['Laravel 13', 'PHP 8.3', 'Blade', 'DomPDF'],
+    image: '/travelbudget.svg',
+    link: 'https://github.com/rzqmrf/Travelbudget',
   },
 ];
 
@@ -124,8 +174,12 @@ export default function WorkPage() {
                   </div>
                   <div className={styles.rowAction}>
                     {project.link !== '#' ? (
-                      <Link href={project.link} className="btn btn--outline">
-                        Case study →
+                      <Link
+                        href={project.link}
+                        className="btn btn--outline"
+                        {...(project.link.startsWith('http') ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
+                      >
+                        {project.link.startsWith('http') ? 'GitHub ↗' : 'Case study →'}
                       </Link>
                     ) : (
                       <span className={styles.coming}>Coming soon</span>

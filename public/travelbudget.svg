@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" width="100%" height="100%">
+  <defs>
+    <linearGradient id="travelBg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#04161a" />
+      <stop offset="50%" stop-color="#08252c" />
+      <stop offset="100%" stop-color="#030f12" />
+    </linearGradient>
+    <linearGradient id="travelGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#06B6D4" />
+      <stop offset="100%" stop-color="#0EA5E9" />
+    </linearGradient>
+    <linearGradient id="travelCard" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.08" />
+      <stop offset="100%" stop-color="#ffffff" stop-opacity="0.02" />
+    </linearGradient>
+  </defs>
+
+  <rect width="800" height="500" fill="url(#travelBg)" />
+  <circle cx="400" cy="220" r="200" fill="#06B6D4" opacity="0.12" filter="blur(70px)" />
+
+  <rect x="180" y="85" width="440" height="290" rx="20" fill="url(#travelCard)" stroke="#06B6D4" stroke-opacity="0.3" stroke-width="1.5" />
+
+  <circle cx="215" cy="120" r="5" fill="#EF4444" opacity="0.8" />
+  <circle cx="230" cy="120" r="5" fill="#F59E0B" opacity="0.8" />
+  <circle cx="245" cy="120" r="5" fill="#10B981" opacity="0.8" />
+  <text x="400" y="125" text-anchor="middle" font-family="sans-serif" font-size="12" font-weight="700" fill="#67E8F9" letter-spacing="3">TRAVELBUDGET // TRIP ESTIMATOR</text>
+
+  <!-- Travel UI Mockup -->
+  <g transform="translate(220, 155)">
+    <rect x="0" y="0" width="360" height="135" rx="12" fill="#030e12" stroke="#06B6D4" stroke-opacity="0.25" />
+    <text x="24" y="32" font-family="sans-serif" font-size="13" font-weight="800" fill="#E0F2FE">✈ Bali 4D3N Exploration</text>
+    <text x="336" y="32" text-anchor="end" font-family="sans-serif" font-size="11" font-weight="700" fill="#38BDF8">Estimasi Rp 4.250.000</text>
+    
+    <line x1="24" y1="46" x2="336" y2="46" stroke="#06B6D4" stroke-opacity="0.2" />
+
+    <text x="24" y="72" font-family="sans-serif" font-size="11" fill="#94A3B8">Penginapan &amp; Transportasi</text>
+    <text x="336" y="72" text-anchor="end" font-family="sans-serif" font-size="11" font-weight="600" fill="#F1F5F9">Rp 2.600.000</text>
+
+    <text x="24" y="96" font-family="sans-serif" font-size="11" fill="#94A3B8">Kuliner &amp; Tiket Wisata</text>
+    <text x="336" y="96" text-anchor="end" font-family="sans-serif" font-size="11" font-weight="600" fill="#F1F5F9">Rp 1.650.000</text>
+
+    <rect x="24" y="108" width="130" height="20" rx="10" fill="#06B6D4" opacity="0.2" />
+    <text x="89" y="122" text-anchor="middle" font-family="sans-serif" font-size="9" font-weight="700" fill="#67E8F9">✓ Export PDF Ready</text>
+  </g>
+
+  <!-- Title Bottom -->
+  <text x="400" y="425" text-anchor="middle" font-family="system-ui, sans-serif" font-size="28" font-weight="900" fill="#FFFFFF" letter-spacing="1">Travelbudget</text>
+  <text x="400" y="450" text-anchor="middle" font-family="monospace" font-size="12" fill="#67E8F9" letter-spacing="2">LARAVEL 13 • PHP 8.3 • BLADE • DOMPDF</text>
+</svg>

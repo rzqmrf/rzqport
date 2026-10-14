@@ -1,0 +1,53 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" width="100%" height="100%">
+  <defs>
+    <linearGradient id="flixBg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#140718" />
+      <stop offset="50%" stop-color="#1e0b25" />
+      <stop offset="100%" stop-color="#0b030d" />
+    </linearGradient>
+    <linearGradient id="flixGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#E11D48" />
+      <stop offset="100%" stop-color="#8B5CF6" />
+    </linearGradient>
+    <linearGradient id="flixCardGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.08" />
+      <stop offset="100%" stop-color="#ffffff" stop-opacity="0.02" />
+    </linearGradient>
+  </defs>
+
+  <!-- Background -->
+  <rect width="800" height="500" fill="url(#flixBg)" />
+
+  <!-- Radial Glow -->
+  <circle cx="400" cy="230" r="220" fill="#E11D48" opacity="0.12" filter="blur(70px)" />
+
+  <!-- Center Cinema Card -->
+  <rect x="180" y="85" width="440" height="290" rx="20" fill="url(#flixCardGrad)" stroke="#E11D48" stroke-opacity="0.3" stroke-width="1.5" />
+
+  <!-- Header dots -->
+  <circle cx="215" cy="120" r="5" fill="#EF4444" opacity="0.8" />
+  <circle cx="230" cy="120" r="5" fill="#F59E0B" opacity="0.8" />
+  <circle cx="245" cy="120" r="5" fill="#10B981" opacity="0.8" />
+  <text x="400" y="125" text-anchor="middle" font-family="sans-serif" font-size="12" font-weight="700" fill="#FDA4AF" letter-spacing="3">FLIXORA // STREAMING PLATFORM</text>
+
+  <!-- Movie Preview Card in Center -->
+  <rect x="220" y="150" width="360" height="150" rx="14" fill="#08020a" stroke="#E11D48" stroke-opacity="0.2" />
+
+  <!-- Play Circle Icon -->
+  <circle cx="400" cy="215" r="30" fill="url(#flixGrad)" opacity="0.9" />
+  <polygon points="394,203 412,215 394,227" fill="#FFFFFF" />
+
+  <!-- Category Pills -->
+  <rect x="240" y="260" width="60" height="22" rx="11" fill="#E11D48" opacity="0.2" />
+  <text x="270" y="275" text-anchor="middle" font-family="sans-serif" font-size="10" font-weight="600" fill="#FDA4AF">Action</text>
+
+  <rect x="310" y="260" width="60" height="22" rx="11" fill="#8B5CF6" opacity="0.2" />
+  <text x="340" y="275" text-anchor="middle" font-family="sans-serif" font-size="10" font-weight="600" fill="#C4B5FD">Sci-Fi</text>
+
+  <rect x="380" y="260" width="70" height="22" rx="11" fill="#10B981" opacity="0.2" />
+  <text x="415" y="275" text-anchor="middle" font-family="sans-serif" font-size="10" font-weight="600" fill="#6EE7B7">TMDB 4K</text>
+
+  <!-- Title Bottom -->
+  <text x="400" y="425" text-anchor="middle" font-family="system-ui, sans-serif" font-size="28" font-weight="900" fill="#FFFFFF" letter-spacing="1">Flixora</text>
+  <text x="400" y="450" text-anchor="middle" font-family="monospace" font-size="12" fill="#FDA4AF" letter-spacing="2">NEXT.JS 16 • TMDB API • WATCHPLAYER</text>
+</svg>
