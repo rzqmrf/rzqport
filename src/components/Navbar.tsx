@@ -3,20 +3,22 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useLanguage } from '@/context/LanguageContext';
 import styles from './Navbar.module.css';
-
-const fullNavItems = [
-  { num: '01', path: '/', label: 'HOME' },
-  { num: '02', path: '/work', label: 'WORK' },
-  { num: '03', path: '/about', label: 'ABOUT' },
-  { num: '04', path: '/contact', label: 'CONTACT' },
-];
 
 export default function Navbar() {
   const pathname = usePathname();
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [currentTheme, setCurrentTheme] = useState('dark');
+  const { lang, toggleLang, t } = useLanguage();
+
+  const fullNavItems = [
+    { num: '01', path: '/', label: t.nav.home },
+    { num: '02', path: '/work', label: t.nav.work },
+    { num: '03', path: '/about', label: t.nav.about },
+    { num: '04', path: '/contact', label: t.nav.contact },
+  ];
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 20);
@@ -86,6 +88,17 @@ export default function Navbar() {
           </Link>
 
           <div className={styles.rightActions}>
+            {/* Language Switch Button (EN / ID) */}
+            <button
+              type="button"
+              onClick={toggleLang}
+              className={styles.langToggleBtn}
+              aria-label={`Switch language to ${lang === 'en' ? 'Bahasa Indonesia' : 'English'}`}
+              title={`Switch language to ${lang === 'en' ? 'Bahasa Indonesia' : 'English'}`}
+            >
+              <span>{lang === 'en' ? 'EN' : 'ID'}</span>
+            </button>
+
             {/* Theme Toggle Button */}
             <button
               type="button"
@@ -222,7 +235,7 @@ export default function Navbar() {
                   rel="noopener noreferrer"
                   className={styles.socialLink}
                 >
-                  ↗ resume
+                  ↗ {t.nav.resume}
                 </a>
               </motion.div>
             </div>

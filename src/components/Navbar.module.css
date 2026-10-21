@@ -63,8 +63,37 @@
 .rightActions {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 8px;
   pointer-events: auto;
+}
+
+/* Language Toggle Button (Inspirasi itssharl.ee / minimal) */
+.langToggleBtn {
+  height: 44px;
+  padding: 0 10px;
+  border: none;
+  background: transparent;
+  color: var(--text-mid);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-family: var(--mono);
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  transition: color 0.25s ease, transform 0.25s ease;
+}
+
+.langToggleBtn:hover {
+  color: var(--accent);
+  transform: scale(1.08);
+}
+
+.langToggleBtn:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+  border-radius: 6px;
 }
 
 /* Theme Toggle Button */

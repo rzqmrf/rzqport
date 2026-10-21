@@ -5,6 +5,7 @@ import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import Link from 'next/link';
 import Image from 'next/image';
+import { useLanguage } from '@/context/LanguageContext';
 import styles from './WorkPage.module.css';
 
 const PROJECTS_DATA = [
@@ -113,11 +114,12 @@ const PROJECTS_DATA = [
 const categories = ['All', 'Enterprise', 'Web App', 'Mobile', 'IoT'];
 
 export default function WorkPage() {
+  const { t } = useLanguage();
   const [filter, setFilter] = useState('All');
 
   const filtered = filter === 'All'
     ? PROJECTS_DATA
-    : PROJECTS_DATA.filter(p => p.category === filter);
+    : PROJECTS_DATA.filter((p) => p.category === filter);
 
   return (
     <>
@@ -125,20 +127,20 @@ export default function WorkPage() {
       <div className={styles.page}>
         <div className="wrap">
           <header className={styles.header}>
-            <div className="eyebrow">Index of Projects</div>
-            <h1 className={styles.title}>All <span className={styles.serif}>work</span>.</h1>
-            <p className={styles.subtitle}>
-              Design files, prototypes, and applications built to solve real problems.
-            </p>
+            <div className="eyebrow">{t.work.eyebrow}</div>
+            <h1 className={styles.title}>
+              {t.work.title} <span className={styles.serif}>{t.work.titleSerif}</span>.
+            </h1>
+            <p className={styles.subtitle}>{t.work.subtitle}</p>
 
             <div className={styles.filters}>
-              {categories.map(cat => (
+              {categories.map((cat) => (
                 <button
                   key={cat}
                   onClick={() => setFilter(cat)}
                   className={`${styles.filterBtn} ${filter === cat ? styles.active : ''}`}
                 >
-                  {cat}
+                  {cat === 'All' ? t.work.allCategory : cat}
                 </button>
               ))}
             </div>
@@ -146,47 +148,57 @@ export default function WorkPage() {
 
           <div className={styles.list}>
             <AnimatePresence mode="popLayout">
-              {filtered.map((project, i) => (
-                <motion.div
-                  key={project.id}
-                  className={styles.row}
-                  layout
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -10 }}
-                  transition={{ delay: i * 0.05, duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
-                >
-                  <div className={styles.rowImg}>
-                    {project.image && (
-                      <Image src={project.image} alt={project.title} fill style={{ objectFit: 'cover' }} />
-                    )}
-                  </div>
-                  <div className={styles.rowBody}>
-                    <div className={styles.rowMeta}>
-                      <span className={styles.num}>{project.num}</span>
-                      <span className={styles.cat}>{project.category}</span>
+              {filtered.map((project, i) => {
+                const localizedDesc = t.work.projects[project.id]?.desc || project.desc;
+
+                return (
+                  <motion.div
+                    key={project.id}
+                    className={styles.row}
+                    layout
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -10 }}
+                    transition={{ delay: i * 0.05, duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+                  >
+                    <div className={styles.rowImg}>
+                      {project.image && (
+                        <Image src={project.image} alt={project.title} fill style={{ objectFit: 'cover' }} />
+                      )}
                     </div>
-                    <h3 className={styles.rowTitle}>{project.title}</h3>
-                    <p className={styles.rowDesc}>{project.desc}</p>
-                    <div className={styles.tags}>
-                      {project.tech.map(t => <span key={t} className="tag">{t}</span>)}
+                    <div className={styles.rowBody}>
+                      <div className={styles.rowMeta}>
+                        <span className={styles.num}>{project.num}</span>
+                        <span className={styles.cat}>{project.category}</span>
+                      </div>
+                      <h3 className={styles.rowTitle}>{project.title}</h3>
+                      <p className={styles.rowDesc}>{localizedDesc}</p>
+                      <div className={styles.tags}>
+                        {project.tech.map((tech) => (
+                          <span key={tech} className="tag">
+                            {tech}
+                          </span>
+                        ))}
+                      </div>
                     </div>
-                  </div>
-                  <div className={styles.rowAction}>
-                    {project.link !== '#' ? (
-                      <Link
-                        href={project.link}
-                        className="btn btn--outline"
-                        {...(project.link.startsWith('http') ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
-                      >
-                        {project.link.startsWith('http') ? 'GitHub ↗' : 'Case study →'}
-                      </Link>
-                    ) : (
-                      <span className={styles.coming}>Coming soon</span>
-                    )}
-                  </div>
-                </motion.div>
-              ))}
+                    <div className={styles.rowAction}>
+                      {project.link !== '#' ? (
+                        <Link
+                          href={project.link}
+                          className="btn btn--outline"
+                          {...(project.link.startsWith('http')
+                            ? { target: '_blank', rel: 'noopener noreferrer' }
+                            : {})}
+                        >
+                          {project.link.startsWith('http') ? t.work.githubBtn : t.work.caseStudyBtn}
+                        </Link>
+                      ) : (
+                        <span className={styles.coming}>{t.work.comingSoon}</span>
+                      )}
+                    </div>
+                  </motion.div>
+                );
+              })}
             </AnimatePresence>
           </div>
         </div>

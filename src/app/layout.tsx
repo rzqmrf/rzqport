@@ -4,6 +4,7 @@ import CustomCursor from '@/components/CustomCursor';
 import GlowBackground from '@/components/GlowBackground';
 import ScrollToTopAirplane from '@/components/ScrollToTopAirplane';
 import ScrollPaperAirplane from '@/components/ScrollPaperAirplane';
+import { LanguageProvider } from '@/context/LanguageContext';
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://rozaqmaruf.dev'),
@@ -61,26 +62,27 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body>
-        <div
-          style={{
-            position: 'fixed',
-            top: 0,
-            left: 0,
-            width: '100vw',
-            height: '100vh',
-            opacity: 0.015,
-            pointerEvents: 'none',
-            zIndex: 999999,
-            backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E")`,
-          }}
-        />
-        <GlowBackground />
-        <CustomCursor />
-        <ScrollToTopAirplane />
-        <ScrollPaperAirplane />
-        <main>{children}</main>
+        <LanguageProvider>
+          <div
+            style={{
+              position: 'fixed',
+              top: 0,
+              left: 0,
+              width: '100vw',
+              height: '100vh',
+              opacity: 0.015,
+              pointerEvents: 'none',
+              zIndex: 999999,
+              backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E")`,
+            }}
+          />
+          <GlowBackground />
+          <CustomCursor />
+          <ScrollToTopAirplane />
+          <ScrollPaperAirplane />
+          <main>{children}</main>
+        </LanguageProvider>
       </body>
     </html>
   );
 }
-

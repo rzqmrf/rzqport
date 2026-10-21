@@ -2,62 +2,51 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
 import Image from 'next/image';
+import { useLanguage } from '@/context/LanguageContext';
 import styles from './Experience.module.css';
 
-const timeline = [
-  {
-    logo: '/psd.png',
-    period: 'June 2026 — Present',
-    role: 'UI/UX Design Intern',
-    company: 'Pelindo Solusi Digital (PSD)',
-    desc: 'Redesigning enterprise logistics dashboards (Tanos ERP) for port freight coordination — from user research to hi-fi prototypes shipped in production.',
-  },
-  {
-    logo: '/pens.png',
-    period: 'August 2024 — Present',
-    role: 'Informatics Engineering',
-    company: 'Electronic Engineering Polytechnic Institute of Surabaya (PENS)',
-    desc: 'Studying software engineering, database systems, HCI, and building various academic projects in web & IoT.',
-  },
-];
+const companyLogos = ['/psd.png', '/pens.png'];
 
 export default function Experience() {
+  const { t } = useLanguage();
   const [failedLogos, setFailedLogos] = useState<Record<number, boolean>>({});
 
   return (
     <section id="experience" className="wrap">
       <div className="section-head">
-        <div className="eyebrow">Experience</div>
-        <h2 className="section-title">Where I've been.</h2>
+        <div className="eyebrow">{t.experience.eyebrow}</div>
+        <h2 className="section-title">{t.experience.title}</h2>
       </div>
 
       <div className={styles.timeline}>
-        {timeline.map((item, i) => {
+        {t.experience.items.map((item, i) => {
           const hasFailed = failedLogos[i];
+          const logoSrc = companyLogos[i] || '/psd.png';
+
           return (
             <motion.div
               key={i}
               className={styles.row}
               initial={{ opacity: 0, x: -30 }}
               whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true, margin: "-100px" }}
-              transition={{ 
-                type: "spring", 
-                stiffness: 70, 
-                damping: 15, 
-                delay: i * 0.12 
+              viewport={{ once: true, margin: '-100px' }}
+              transition={{
+                type: 'spring',
+                stiffness: 70,
+                damping: 15,
+                delay: i * 0.12,
               }}
             >
               <div className={styles.left}>
                 <div className={styles.logoFrame}>
                   {!hasFailed ? (
                     <Image
-                      src={item.logo}
+                      src={logoSrc}
                       alt={item.company}
                       fill
                       style={{ objectFit: 'contain' }}
                       onError={() => {
-                        setFailedLogos(prev => ({ ...prev, [i]: true }));
+                        setFailedLogos((prev) => ({ ...prev, [i]: true }));
                       }}
                     />
                   ) : (

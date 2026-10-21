@@ -2,6 +2,7 @@
 import { useRef } from 'react';
 import { motion, useMotionValue, useSpring } from 'framer-motion';
 import Link from 'next/link';
+import { useLanguage } from '@/context/LanguageContext';
 import styles from './Hero.module.css';
 
 function Magnetic({ children }: { children: React.ReactElement }) {
@@ -40,6 +41,7 @@ function Magnetic({ children }: { children: React.ReactElement }) {
 }
 
 export default function Hero() {
+  const { t } = useLanguage();
   const firstName = 'Muhammad';
   const middleName = 'Rozaq';
   const lastName = "Ma'ruf";
@@ -89,7 +91,7 @@ export default function Hero() {
           animate={{ opacity: 1 }}
           transition={{ delay: 0.9, duration: 0.8 }}
         >
-          UI/UX Designer & Full-Stack Developer crafting intuitive, high-performance digital experiences.
+          {t.hero.subtitle}
         </motion.p>
 
         <motion.div
@@ -105,12 +107,12 @@ export default function Hero() {
               rel="noopener noreferrer"
               className="btn btn--fill"
             >
-              Resume ↗
+              {t.hero.resumeBtn}
             </a>
           </Magnetic>
           <Magnetic>
             <Link href="/contact" className="btn btn--outline">
-              Get in touch
+              {t.hero.contactBtn}
             </Link>
           </Magnetic>
         </motion.div>
