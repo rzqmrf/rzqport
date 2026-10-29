@@ -3,51 +3,64 @@ import { useRef, useState, MouseEvent } from 'react';
 import { motion } from 'framer-motion';
 import Image from 'next/image';
 import Link from 'next/link';
+import { useLanguage } from '@/context/LanguageContext';
 import styles from './Projects.module.css';
 
 export interface ProjectData {
+  id: string;
   num: string;
   title: string;
-  cat: string;
-  desc: string;
+  catKey: string;
   tech: string[];
   image: string;
   link: string;
+  featuredLead?: boolean;
 }
 
 const featuredProjects: ProjectData[] = [
   {
+    id: 'tanos-erp',
     num: '01',
     title: 'Tanos ERP',
-    cat: 'Enterprise',
-    desc: 'Logistics dashboard designed for PT ILCS to monitor dispatch schedules and cargo fleet movements in real-time.',
-    tech: ['Figma', 'Laravel', 'Tailwind', 'MySQL'],
+    catKey: 'Enterprise',
+    tech: ['Figma', 'Laravel', 'Tailwind CSS', 'MySQL'],
     image: '/tanosss.png',
     link: '/work/tanos-erp',
+    featuredLead: true,
   },
   {
+    id: 'e-reserv',
     num: '02',
     title: 'E-Reserv',
-    cat: 'Web App',
-    desc: 'An integrated digital platform for sports field reservations connecting tenants and managers with slot automation.',
+    catKey: 'Web App',
     tech: ['Flutter', 'Laravel 12', 'MySQL', 'Midtrans'],
     image: '/ereserv.png',
     link: '/work/e-reserv',
   },
   {
+    id: 'balang',
     num: '03',
     title: 'BALANG',
-    cat: 'Mobile UX',
-    desc: 'Community crowd-sourced mobile app built with Flutter to report, verify, and map lost & found items.',
-    tech: ['Flutter', 'Firebase', 'Figma'],
+    catKey: 'Mobile',
+    tech: ['Flutter', 'Firebase', 'Google Maps API'],
     image: '/balang.png',
     link: '/work/balang',
   },
 ];
 
-function TiltCard({ project }: { project: ProjectData }) {
+function TiltCard({
+  project,
+  desc,
+  catLabel,
+  viewLabel,
+}: {
+  project: ProjectData;
+  desc: string;
+  catLabel: string;
+  viewLabel: string;
+}) {
   const cardRef = useRef<HTMLDivElement>(null);
-  const [transform, setTransform] = useState('perspective(800px) rotateX(0deg) rotateY(0deg)');
+  const [transform, setTransform] = useState('perspective(900px) rotateX(0deg) rotateY(0deg)');
 
   const handleMouseMove = (e: MouseEvent<HTMLDivElement>) => {
     if (!cardRef.current || window.matchMedia('(hover: none)').matches) return;
@@ -56,84 +69,99 @@ function TiltCard({ project }: { project: ProjectData }) {
     const y = e.clientY - rect.top;
     const centerX = rect.width / 2;
     const centerY = rect.height / 2;
-    const rotateX = ((y - centerY) / centerY) * -5;
-    const rotateY = ((x - centerX) / centerX) * 5;
-    setTransform(`perspective(800px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`);
+    const maxTilt = project.featuredLead ? 2.5 : 4;
+    const rotateX = ((y - centerY) / centerY) * -maxTilt;
+    const rotateY = ((x - centerX) / centerX) * maxTilt;
+    setTransform(`perspective(900px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`);
   };
 
   const handleMouseLeave = () => {
-    setTransform('perspective(800px) rotateX(0deg) rotateY(0deg)');
+    setTransform('perspective(900px) rotateX(0deg) rotateY(0deg)');
   };
 
   return (
-    <motion.div
+    <motion.article
       ref={cardRef}
-      className={styles.card}
+      className={`${styles.card} ${project.featuredLead ? styles.cardLead : ''}`}
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
       style={{ transform }}
-      initial={{ opacity: 0, y: 35 }}
+      initial={{ opacity: 0, y: 32 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: '-60px' }}
       transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
     >
-      <div className={styles.cardImage}>
+      <Link href={project.link} className={styles.cardImage} aria-label={project.title}>
         <Image
           src={project.image}
           alt={project.title}
           fill
-          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+          sizes={
+            project.featuredLead
+              ? '(max-width: 860px) 100vw, 680px'
+              : '(max-width: 860px) 100vw, 540px'
+          }
           style={{ objectFit: 'cover' }}
         />
         <div className={styles.cardOverlay}>
           <span className={styles.cardNum}>{project.num}</span>
         </div>
-      </div>
+      </Link>
+
       <div className={styles.cardBody}>
         <div className={styles.cardTop}>
-          <h3 className={styles.cardTitle}>{project.title}</h3>
-          <span className={styles.cardCat}>{project.cat}</span>
+          <span className={styles.cardCat}>{catLabel}</span>
+          <h3 className={styles.cardTitle}>
+            <Link href={project.link}>{project.title}</Link>
+          </h3>
         </div>
-        <p className={styles.cardDesc}>{project.desc}</p>
+        <p className={styles.cardDesc}>{desc}</p>
         <div className={styles.cardFooter}>
           <div className={styles.tags}>
-            {project.tech.map((t) => (
-              <span key={t} className="tag">
-                {t}
+            {project.tech.map((item) => (
+              <span key={item} className="tag">
+                {item}
               </span>
             ))}
           </div>
-          {project.link !== '#' && (
-            <Link href={project.link} className={styles.cardLink}>
-              View case →
-            </Link>
-          )}
+          <Link href={project.link} className={styles.cardLink}>
+            {viewLabel}
+          </Link>
         </div>
       </div>
-    </motion.div>
+    </motion.article>
   );
 }
 
 export default function Projects() {
+  const { t } = useLanguage();
+
   return (
-    <section id="featured" className="wrap" style={{ scrollMarginTop: '100px' }}>
+    <section id="featured" className="wrap" style={{ scrollMarginTop: '88px' }}>
       <div className="section-head">
-        <div className="eyebrow">Selected Work</div>
-        <h2 className="section-title">Featured projects.</h2>
-        <p className="section-note">
-          A selection of enterprise dashboards, mobile applications, and web platforms built to solve real-world problems.
-        </p>
+        <div className="eyebrow">{t.featured.eyebrow}</div>
+        <h2 className="section-title">
+          {t.featured.title}{' '}
+          <span className="section-title-serif">{t.featured.titleSerif}</span>.
+        </h2>
+        <p className="section-note">{t.featured.note}</p>
       </div>
 
       <div className={styles.grid}>
         {featuredProjects.map((p) => (
-          <TiltCard key={p.num} project={p} />
+          <TiltCard
+            key={p.id}
+            project={p}
+            desc={t.work.projects[p.id]?.desc || ''}
+            catLabel={t.work.categories[p.catKey] || p.catKey}
+            viewLabel={t.featured.viewCase}
+          />
         ))}
       </div>
 
       <div className={styles.allProjectsWrapper}>
         <Link href="/work" className="btn btn--outline">
-          Explore all projects & case studies →
+          {t.featured.exploreAll}
         </Link>
       </div>
     </section>

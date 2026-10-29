@@ -1,111 +1,79 @@
 'use client';
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useLanguage } from '@/context/LanguageContext';
 import styles from './WorkspaceMap.module.css';
 
-interface DeskItem {
-  id: string;
-  name: string;
-  className: string;
-  label: string;
-  desc: string;
-}
-
-const items: DeskItem[] = [
-  {
-    id: 'monitor',
-    name: 'Samsung Essential S3 24"',
-    className: styles.monitor,
-    label: 'Samsung 24" Display',
-    desc: 'Dual display configuration aligned vertically to read through documentation files and code structures without scaling down.'
-  },
-  {
-    id: 'laptop',
-    name: 'HP Pavilion Laptop',
-    className: styles.laptop,
-    label: 'HP Pavilion',
-    desc: 'My primary work machine for UI design in Figma, local code compilation, and full-stack system testing.'
-  },
-  {
-    id: 'keyboard',
-    name: 'Mechanical Keyboard',
-    className: styles.keyboard,
-    label: 'Keyboard',
-    desc: 'Compact layout keyboard for distraction-free typing during long software development sprints.'
-  },
-  {
-    id: 'mouse',
-    name: 'Logitech Pebble M350',
-    className: styles.mouse,
-    label: 'Pebble',
-    desc: 'A silent, pocket-sized travel mouse that provides swift navigation while keeping my workstation completely quiet.'
-  },
-  {
-    id: 'notebook',
-    name: 'Analog Sketchbook',
-    className: styles.notebook,
-    label: 'Sketchbook',
-    desc: 'Where all user flows, database relational maps, and wireframe drafts are hand-drawn before touching software.'
-  },
-  {
-    id: 'coffee',
-    name: 'Double Espresso Mug',
-    className: styles.coffee,
-    label: '☕',
-    desc: 'Essential fuel for early morning code reviews and late night visual prototyping sprints.'
-  }
-];
+const DESK_KEYS = [
+  { id: 'monitor', className: styles.monitor },
+  { id: 'laptop', className: styles.laptop },
+  { id: 'keyboard', className: styles.keyboard },
+  { id: 'mouse', className: styles.mouse },
+  { id: 'notebook', className: styles.notebook },
+  { id: 'coffee', className: styles.coffee },
+] as const;
 
 export default function WorkspaceMap() {
-  const [activeItem, setActiveItem] = useState<DeskItem | null>(null);
+  const { t } = useLanguage();
+  const [activeId, setActiveId] = useState<string | null>(null);
+
+  const activeItem = activeId ? t.workspace.items[activeId] : null;
 
   return (
     <section className={`${styles.section} wrap`}>
       <div className="section-head">
-        <div className="eyebrow">Workspace blueprint</div>
+        <div className="eyebrow">{t.workspace.eyebrow}</div>
         <h2 className="section-title">
-          My digital <span className={styles.serif}>workshop</span>.
+          {t.workspace.title}{' '}
+          <span className="section-title-serif">{t.workspace.titleSerif}</span>.
         </h2>
-        <p className="section-note">
-          Hover over any item on the interactive desk layout below to inspect my hardware setup and workstation blueprint.
-        </p>
+        <p className="section-note">{t.workspace.note}</p>
       </div>
 
-      <div className={styles.mapContainer}>
-        <div className={styles.desk}>
-          {items.map((item) => (
-            <div
-              key={item.id}
-              className={`${styles.deskItem} ${item.className}`}
-              onMouseEnter={() => setActiveItem(item)}
-              onMouseLeave={() => setActiveItem(null)}
-            >
-              <span className={styles.label}>{item.label}</span>
-            </div>
-          ))}
+      <div className={styles.blueprintShell}>
+        <div className={styles.mapContainer}>
+          <div className={styles.desk}>
+            {DESK_KEYS.map((item) => {
+              const translated = t.workspace.items[item.id];
+              const isSelected = activeId === item.id;
+              return (
+                <button
+                  key={item.id}
+                  type="button"
+                  className={`${styles.deskItem} ${item.className} ${isSelected ? styles.deskItemActive : ''}`}
+                  aria-pressed={isSelected}
+                  aria-label={translated.name}
+                  onMouseEnter={() => setActiveId(item.id)}
+                  onMouseLeave={() => setActiveId(null)}
+                  onFocus={() => setActiveId(item.id)}
+                  onClick={() => setActiveId((prev) => (prev === item.id ? null : item.id))}
+                >
+                  <span className={styles.label}>{translated.label}</span>
+                </button>
+              );
+            })}
+          </div>
         </div>
 
-        {/* Dynamic Tooltip Overlay */}
-        <AnimatePresence mode="wait">
-          <motion.div
-            key={activeItem ? activeItem.id : 'default'}
-            className={styles.tooltip}
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: 10 }}
-            transition={{ duration: 0.2 }}
-          >
-            <h4 className={styles.tooltipTitle}>
-              {activeItem ? activeItem.name : 'Inspect Workspace'}
-            </h4>
-            <p className={styles.tooltipDesc}>
-              {activeItem 
-                ? activeItem.desc 
-                : 'Hover over the wireframe desk elements to explore my physical and analog workstation setup.'
-              }
-            </p>
-          </motion.div>
-        </AnimatePresence>
+        <div className={styles.readoutBar} aria-live="polite">
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={activeId ?? 'default'}
+              className={styles.readoutContent}
+              initial={{ opacity: 0, y: 6 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -6 }}
+              transition={{ duration: 0.18 }}
+            >
+              <h3 className={styles.tooltipTitle}>
+                {activeItem ? activeItem.name : t.workspace.inspectTitle}
+              </h3>
+              <p className={styles.tooltipDesc}>
+                {activeItem ? activeItem.desc : t.workspace.inspectDefault}
+              </p>
+            </motion.div>
+          </AnimatePresence>
+        </div>
       </div>
     </section>
   );

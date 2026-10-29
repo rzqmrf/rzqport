@@ -25,7 +25,7 @@
 
 .subtitle {
   margin-top: 20px;
-  max-width: 480px;
+  max-width: 500px;
   color: var(--text-muted);
   font-size: 16px;
   line-height: 1.65;
@@ -42,16 +42,17 @@
   font-family: var(--mono);
   font-size: 12px;
   letter-spacing: 0.04em;
+  min-height: 44px;
   padding: 8px 18px;
   border-radius: 100px;
   border: 1px solid var(--border);
   color: var(--text-muted);
-  transition: all 0.3s ease;
+  transition: all 0.25s ease;
 }
 
 .filterBtn:hover {
   color: var(--text);
-  border-color: rgba(255, 255, 255, 0.15);
+  border-color: var(--border-strong);
 }
 
 .filterBtn.active {
@@ -73,13 +74,13 @@
   grid-template-columns: 160px 1fr auto;
   gap: 32px;
   align-items: center;
-  padding: 32px 0;
+  padding: 32px 12px;
   border-bottom: 1px solid var(--border);
-  transition: background 0.3s ease;
+  transition: background-color 0.3s ease;
 }
 
 .row:hover {
-  background: rgba(255, 255, 255, 0.01);
+  background: var(--surface-hover);
 }
 
 .rowImg {
@@ -136,8 +137,8 @@
 .rowDesc {
   font-size: 14px;
   color: var(--text-muted);
-  line-height: 1.6;
-  max-width: 480px;
+  line-height: 1.65;
+  max-width: 520px;
 }
 
 .tags {
@@ -162,8 +163,10 @@
   .row {
     grid-template-columns: 1fr;
     gap: 16px;
+    padding: 28px 0;
   }
+
   .rowImg {
-    max-width: 200px;
+    max-width: 220px;
   }
 }

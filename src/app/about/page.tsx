@@ -8,7 +8,8 @@ import Footer from '@/components/Footer';
 
 export const metadata: Metadata = {
   title: 'About Me',
-  description: "Learn more about Muhammad Rozaq Ma'ruf — background, skills, design philosophy, and workstation blueprint.",
+  description:
+    "Learn more about Muhammad Rozaq Ma'ruf: background, toolkit, design philosophy, and workstation blueprint.",
 };
 
 export default function AboutPage() {

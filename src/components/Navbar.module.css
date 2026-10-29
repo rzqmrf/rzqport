@@ -11,8 +11,8 @@
 }
 
 .header.scrolled {
-  padding: 16px var(--gutter);
-  background: color-mix(in srgb, var(--bg) 80%, transparent);
+  padding: 14px var(--gutter);
+  background: color-mix(in srgb, var(--bg) 82%, transparent);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
   border-bottom: 1px solid var(--border);
@@ -25,6 +25,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  gap: 24px;
 }
 
 /* ======= LOGO GROUP ======= */
@@ -59,16 +60,55 @@
   text-transform: lowercase;
 }
 
+/* ======= DESKTOP INLINE NAV ======= */
+.desktopQuickNav {
+  display: flex;
+  align-items: center;
+  gap: 28px;
+  pointer-events: auto;
+}
+
+.desktopLink {
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  padding: 8px 4px;
+  position: relative;
+  transition: color 0.25s ease;
+}
+
+.desktopLink:hover {
+  color: var(--text);
+}
+
+.desktopLinkActive {
+  color: var(--text);
+}
+
+.desktopLinkActive::after {
+  content: '';
+  position: absolute;
+  left: 4px;
+  right: 4px;
+  bottom: 2px;
+  height: 1.5px;
+  background: var(--accent);
+  border-radius: 2px;
+}
+
 /* ======= RIGHT ACTIONS ======= */
 .rightActions {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 6px;
   pointer-events: auto;
 }
 
-/* Language Toggle Button (Inspirasi itssharl.ee / minimal) */
 .langToggleBtn {
+  min-width: 44px;
   height: 44px;
   padding: 0 10px;
   border: none;
@@ -90,13 +130,6 @@
   transform: scale(1.08);
 }
 
-.langToggleBtn:focus-visible {
-  outline: 2px solid var(--accent);
-  outline-offset: 3px;
-  border-radius: 6px;
-}
-
-/* Theme Toggle Button */
 .themeToggleBtn {
   width: 44px;
   height: 44px;
@@ -115,18 +148,11 @@
   transform: scale(1.1);
 }
 
-.themeToggleBtn:focus-visible {
-  outline: 2px solid var(--accent);
-  outline-offset: 3px;
-  border-radius: 6px;
-}
-
 .themeIcon {
   font-size: 20px;
   line-height: 1;
 }
 
-/* Bento / Hamburger Toggle Button */
 .menuToggleBtn {
   width: 44px;
   height: 44px;
@@ -145,12 +171,6 @@
   transform: scale(1.1);
 }
 
-.menuToggleBtn:focus-visible {
-  outline: 2px solid var(--accent);
-  outline-offset: 3px;
-  border-radius: 6px;
-}
-
 .menuToggleBtn.menuOpen {
   background: transparent;
   color: var(--text);
@@ -160,7 +180,6 @@
   color: var(--accent);
 }
 
-/* 6-dot Bento Icon (Inspirasi itssharl.ee :::) */
 .bentoIcon {
   display: grid;
   grid-template-columns: repeat(3, 5.5px);
@@ -202,7 +221,6 @@
   min-height: 100%;
 }
 
-/* Large Numbered Nav List (01 HOME, 02 WORK, etc.) */
 .navLinksList {
   display: flex;
   flex-direction: column;
@@ -214,7 +232,6 @@
   display: flex;
   align-items: baseline;
   gap: 24px;
-  cursor: pointer;
 }
 
 .navItemNum {
@@ -251,7 +268,6 @@
   color: var(--text);
 }
 
-/* Footer Links below Menu (instagram, github, etc.) */
 .socialFooter {
   display: flex;
   gap: 32px;
@@ -270,6 +286,7 @@
   display: inline-flex;
   align-items: center;
   gap: 4px;
+  min-height: 44px;
 }
 
 .socialLink:hover {
@@ -277,14 +294,21 @@
   transform: translateY(-2px);
 }
 
-/* ======= MOBILE RESPONSIVE ======= */
 @media (max-width: 768px) {
   .header {
-    padding: 20px 20px;
+    padding: 18px 20px;
   }
-  
+
   .header.scrolled {
-    padding: 14px 20px;
+    padding: 12px 20px;
+  }
+
+  .desktopQuickNav {
+    display: none;
+  }
+
+  .logoFullName {
+    display: none;
   }
 
   .overlay {

@@ -2,87 +2,48 @@
 import { useRef, useState, useEffect } from 'react';
 import { motion, useMotionValue, useSpring, useTransform, AnimatePresence } from 'framer-motion';
 import Image from 'next/image';
+import { useLanguage } from '@/context/LanguageContext';
+import { useMediaQuery } from '@/lib/clientStore';
 import styles from './BehindTheScenes.module.css';
 
-const photos = [
-  { 
-    src: '/photo-beach.jpg', 
-    caption: 'Campus life', 
-    aspect: '16/10', 
-    position: 'center 85%',
-    story: 'Electronic Engineering Polytechnic Institute of Surabaya (EEPIS/PENS). Navigating informatics assignments, user discovery workshops, and collaborating on academic projects.'
-  },
-  { 
-    src: '/photo-campus.jpg', 
-    caption: 'Sunset vibes', 
-    aspect: '3/4', 
-    position: 'center',
-    story: 'Recharging by the coast. I find that taking steps back to observe natural horizons helps clear design blockages and brings fresh perspectives to layout problems.'
-  },
-  { 
-    src: '/photo-hiking.jpg', 
-    caption: 'Exploring peaks', 
-    aspect: '1/1', 
-    position: 'center',
-    story: 'Ascending high ridges in East Java. Hiking forces me to focus on step-by-step progress, a principle I apply daily when refactoring large codebase systems.'
-  },
-  { 
-    src: '/photo-river.jpg', 
-    caption: 'Chasing waterfalls', 
-    aspect: '4/3', 
-    position: 'center 95%',
-    story: 'Seeking hidden rivers and waterfalls. The organic flow of water in nature serves as inspiration for creating fluid and natural motion transitions in user interfaces.'
-  },
-  { 
-    src: '/photo-code.jpg', 
-    caption: 'Late night code', 
-    aspect: '16/10', 
-    position: 'center',
-    story: 'Writing React hooks, configuring SQL schemas, and tuning UI styles. Often accompanied by black coffee and low-fidelity chillhop beats.'
-  },
-  { 
-    src: '/photo-class.jpg', 
-    caption: 'Presenting ideas', 
-    aspect: '3/4', 
-    position: 'center',
-    story: 'Sharing wireframes and project architectures during classroom pitches. Communication is key to explaining the value of design decisions to non-designers.'
-  },
-  { 
-    src: '/photo-futsal.jpg', 
-    caption: 'Game day', 
-    aspect: '1/1', 
-    position: 'center',
-    story: 'A quick futsal match with college friends. Great for cardiovascular health, building strong team reflexes, and clearing design fatigue.'
-  },
-  { 
-    src: '/photo-mall.jpg', 
-    caption: 'Off duty', 
-    aspect: '3/4', 
-    position: 'center',
-    story: 'Hanging out and exploring local spots. Stepping into urban spaces offers inspiration from physical signs, architecture, and interior design patterns.'
-  },
+const PHOTO_ASSETS = [
+  { src: '/photo-beach.jpg', aspect: '16/10', position: 'center 85%' },
+  { src: '/photo-campus.jpg', aspect: '3/4', position: 'center' },
+  { src: '/photo-hiking.jpg', aspect: '1/1', position: 'center' },
+  { src: '/photo-river.jpg', aspect: '4/3', position: 'center 95%' },
+  { src: '/photo-code.jpg', aspect: '16/10', position: 'center' },
+  { src: '/photo-class.jpg', aspect: '3/4', position: 'center' },
+  { src: '/photo-futsal.jpg', aspect: '1/1', position: 'center' },
+  { src: '/photo-mall.jpg', aspect: '3/4', position: 'center' },
 ];
 
-function GalleryCell({ photo, index, onClick }: { photo: typeof photos[0]; index: number; onClick: () => void }) {
-  const cardRef = useRef<HTMLDivElement>(null);
-  const [isHoverable, setIsHoverable] = useState(false);
+function GalleryCell({
+  asset,
+  caption,
+  index,
+  isHoverable,
+  onClick,
+}: {
+  asset: (typeof PHOTO_ASSETS)[0];
+  caption: string;
+  index: number;
+  isHoverable: boolean;
+  onClick: () => void;
+}) {
+  const cardRef = useRef<HTMLButtonElement>(null);
 
-  useEffect(() => {
-    setIsHoverable(window.matchMedia('(hover: hover) and (pointer: fine)').matches);
-  }, []);
-  
   const x = useMotionValue(0);
   const y = useMotionValue(0);
-  
-  const rotateX = useSpring(useTransform(y, [-0.5, 0.5], [15, -15]), { stiffness: 180, damping: 20 });
-  const rotateY = useSpring(useTransform(x, [-0.5, 0.5], [-15, 15]), { stiffness: 180, damping: 20 });
+
+  const rotateX = useSpring(useTransform(y, [-0.5, 0.5], [12, -12]), { stiffness: 180, damping: 20 });
+  const rotateY = useSpring(useTransform(x, [-0.5, 0.5], [-12, 12]), { stiffness: 180, damping: 20 });
 
   const handleMouseMove = (event: React.MouseEvent) => {
     if (!isHoverable || !cardRef.current) return;
     const rect = cardRef.current.getBoundingClientRect();
     const mouseX = event.clientX - rect.left - rect.width / 2;
     const mouseY = event.clientY - rect.top - rect.height / 2;
-    
+
     x.set(mouseX / rect.width);
     y.set(mouseY / rect.height);
   };
@@ -93,65 +54,68 @@ function GalleryCell({ photo, index, onClick }: { photo: typeof photos[0]; index
   };
 
   return (
-    <motion.div
+    <motion.button
+      type="button"
       ref={cardRef}
       className={styles.cell}
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
       onClick={onClick}
-      initial={{ opacity: 0, y: 60, scale: 0.92, rotate: index % 2 === 0 ? -1.5 : 1.5 }}
+      aria-label={caption}
+      initial={{ opacity: 0, y: 50, scale: 0.94, rotate: index % 2 === 0 ? -1.2 : 1.2 }}
       whileInView={{ opacity: 1, y: 0, scale: 1, rotate: 0 }}
-      viewport={{ once: true, margin: "-80px" }}
-      transition={{ 
-        type: "spring", 
-        stiffness: 80, 
-        damping: 18, 
-        delay: index * 0.05 
+      viewport={{ once: true, margin: '-80px' }}
+      transition={{
+        type: 'spring',
+        stiffness: 80,
+        damping: 18,
+        delay: index * 0.045,
       }}
-      style={{ 
-        aspectRatio: photo.aspect,
+      style={{
+        aspectRatio: asset.aspect,
         rotateX: isHoverable ? rotateX : 0,
         rotateY: isHoverable ? rotateY : 0,
         transformStyle: 'preserve-3d',
-        perspective: '1000px'
+        perspective: '1000px',
       }}
     >
-      <Image 
-        src={photo.src} 
-        alt={photo.caption} 
+      <Image
+        src={asset.src}
+        alt={caption}
         fill
         sizes="(max-width: 600px) 100vw, (max-width: 900px) 50vw, 33vw"
-        style={{ 
+        style={{
           objectFit: 'cover',
-          objectPosition: photo.position,
-          transition: 'transform 0.8s cubic-bezier(0.16, 1, 0.3, 1)'
-        }} 
+          objectPosition: asset.position,
+          transition: 'transform 0.8s cubic-bezier(0.16, 1, 0.3, 1)',
+        }}
       />
-      <div 
+      <div
         className={styles.overlay}
-        style={{ 
-          transform: isHoverable ? 'translateZ(10px)' : 'none', 
+        style={{
+          transform: isHoverable ? 'translateZ(10px)' : 'none',
           transformStyle: 'preserve-3d',
-          opacity: isHoverable ? undefined : 1
+          opacity: isHoverable ? undefined : 1,
         }}
       >
-        <span 
+        <span
           className={styles.caption}
           style={{ transform: isHoverable ? 'translateZ(25px)' : 'none' }}
         >
-          {photo.caption}
+          {caption}
         </span>
       </div>
-    </motion.div>
+    </motion.button>
   );
 }
 
 export default function BehindTheScenes() {
-  const [selectedPhoto, setSelectedPhoto] = useState<typeof photos[0] | null>(null);
+  const { t } = useLanguage();
+  const isHoverable = useMediaQuery('(hover: hover) and (pointer: fine)');
+  const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
 
-  // Disable main body scroll when modal lightbox is open
   useEffect(() => {
-    if (selectedPhoto) {
+    if (selectedIndex !== null) {
       document.body.style.overflow = 'hidden';
     } else {
       document.body.style.overflow = '';
@@ -159,56 +123,96 @@ export default function BehindTheScenes() {
     return () => {
       document.body.style.overflow = '';
     };
-  }, [selectedPhoto]);
+  }, [selectedIndex]);
+
+  useEffect(() => {
+    if (selectedIndex === null) return;
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        setSelectedIndex(null);
+      } else if (e.key === 'ArrowRight') {
+        setSelectedIndex((prev) => (prev === null ? null : (prev + 1) % PHOTO_ASSETS.length));
+      } else if (e.key === 'ArrowLeft') {
+        setSelectedIndex((prev) =>
+          prev === null ? null : (prev - 1 + PHOTO_ASSETS.length) % PHOTO_ASSETS.length
+        );
+      }
+    };
+    window.addEventListener('keydown', onKeyDown);
+    return () => window.removeEventListener('keydown', onKeyDown);
+  }, [selectedIndex]);
+
+  const selectedAsset = selectedIndex !== null ? PHOTO_ASSETS[selectedIndex] : null;
+  const selectedText = selectedIndex !== null ? t.gallery.items[selectedIndex] : null;
 
   return (
     <section id="gallery" className="wrap">
       <div className="section-head">
-        <div className="eyebrow">Behind the Scenes</div>
+        <div className="eyebrow">{t.gallery.eyebrow}</div>
         <h2 className="section-title">
-          Beyond the <span className={styles.serif}>pixels</span>.
+          {t.gallery.title}{' '}
+          <span className={styles.serif}>{t.gallery.titleSerif}</span>.
         </h2>
-        <p className="section-note">When I'm not pushing commits — hiking, exploring, or just vibing. Click any photo to see its story.</p>
+        <p className="section-note">{t.gallery.note}</p>
       </div>
 
       <div className={styles.masonry}>
-        {photos.map((photo, i) => (
-          <GalleryCell key={photo.src} photo={photo} index={i} onClick={() => setSelectedPhoto(photo)} />
-        ))}
+        {PHOTO_ASSETS.map((asset, i) => {
+          const itemText = t.gallery.items[i] || { caption: '', story: '' };
+          return (
+            <GalleryCell
+              key={asset.src}
+              asset={asset}
+              caption={itemText.caption}
+              index={i}
+              isHoverable={isHoverable}
+              onClick={() => setSelectedIndex(i)}
+            />
+          );
+        })}
       </div>
 
-      {/* Lightbox Modal Lightbox */}
       <AnimatePresence>
-        {selectedPhoto && (
+        {selectedAsset && selectedText && (
           <motion.div
             className={styles.lightbox}
+            role="dialog"
+            aria-modal="true"
+            aria-label={selectedText.caption}
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            onClick={() => setSelectedPhoto(null)}
+            onClick={() => setSelectedIndex(null)}
           >
             <motion.div
               className={styles.lightboxContent}
-              initial={{ scale: 0.9, y: 20 }}
+              initial={{ scale: 0.92, y: 20 }}
               animate={{ scale: 1, y: 0 }}
-              exit={{ scale: 0.9, y: 20 }}
+              exit={{ scale: 0.92, y: 20 }}
               transition={{ type: 'spring', stiffness: 300, damping: 25 }}
               onClick={(e) => e.stopPropagation()}
             >
-              <button className={styles.closeBtn} onClick={() => setSelectedPhoto(null)}>
-                &times;
+              <button
+                type="button"
+                className={styles.closeBtn}
+                onClick={() => setSelectedIndex(null)}
+                aria-label={t.gallery.closeLabel}
+              >
+                ×
               </button>
               <div className={styles.lightboxImageWrapper}>
-                <img
-                  src={selectedPhoto.src}
-                  alt={selectedPhoto.caption}
-                  className={styles.lightboxImg}
+                <Image
+                  src={selectedAsset.src}
+                  alt={selectedText.caption}
+                  fill
+                  sizes="(max-width: 768px) 100vw, 540px"
+                  style={{ objectFit: 'cover', objectPosition: selectedAsset.position }}
                 />
               </div>
               <div className={styles.lightboxInfo}>
-                <span className="eyebrow">Photo Story</span>
-                <h3 className={styles.lightboxCaption}>{selectedPhoto.caption}</h3>
-                <p className={styles.lightboxStory}>{selectedPhoto.story}</p>
+                <span className="eyebrow">{t.gallery.photoStory}</span>
+                <h3 className={styles.lightboxCaption}>{selectedText.caption}</h3>
+                <p className={styles.lightboxStory}>{selectedText.story}</p>
               </div>
             </motion.div>
           </motion.div>

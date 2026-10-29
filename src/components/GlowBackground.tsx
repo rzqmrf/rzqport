@@ -1,10 +1,12 @@
 'use client';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { motion, useMotionValue, useSpring } from 'framer-motion';
+import { useHydrated, useMediaQuery } from '@/lib/clientStore';
 import styles from './GlowBackground.module.css';
 
 export default function GlowBackground() {
-  const [mounted, setMounted] = useState(false);
+  const hydrated = useHydrated();
+  const finePointer = useMediaQuery('(hover: hover) and (pointer: fine)');
 
   const x = useMotionValue(-700);
   const y = useMotionValue(-700);
@@ -13,24 +15,21 @@ export default function GlowBackground() {
   const springY = useSpring(y, { stiffness: 60, damping: 20, mass: 0.8 });
 
   useEffect(() => {
-    setMounted(true);
-    if (!window.matchMedia('(hover: hover) and (pointer: fine)').matches) return;
+    if (!hydrated || !finePointer) return;
 
     const handleMouseMove = (e: MouseEvent) => {
-      // Offset by 350px (half of 700px spotlight width) so spotlight centers on cursor
       x.set(e.clientX - 350);
       y.set(e.clientY - 350);
     };
 
-    window.addEventListener('mousemove', handleMouseMove);
+    window.addEventListener('mousemove', handleMouseMove, { passive: true });
     return () => window.removeEventListener('mousemove', handleMouseMove);
-  }, [x, y]);
+  }, [hydrated, finePointer, x, y]);
 
-  if (!mounted) return null;
+  if (!hydrated) return null;
 
   return (
-    <div className={styles.container}>
-      {/* Dynamic Mouse Spotlight Glow */}
+    <div className={styles.container} aria-hidden="true">
       <motion.div
         className={styles.spotlight}
         style={{
@@ -38,8 +37,6 @@ export default function GlowBackground() {
           y: springY,
         }}
       />
-      
-      {/* Static Floating Ambient Neon Blobs */}
       <div className={styles.blob1} />
       <div className={styles.blob2} />
     </div>

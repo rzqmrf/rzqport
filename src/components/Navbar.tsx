@@ -1,17 +1,42 @@
 'use client';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useSyncExternalStore } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useLanguage } from '@/context/LanguageContext';
 import styles from './Navbar.module.css';
 
+const THEME_KEY = 'theme';
+const THEME_EVENT = 'portfolio-theme-change';
+
+function subscribeTheme(onStoreChange: () => void) {
+  if (typeof window === 'undefined') return () => {};
+  const handler = () => onStoreChange();
+  window.addEventListener('storage', handler);
+  window.addEventListener(THEME_EVENT, handler);
+  return () => {
+    window.removeEventListener('storage', handler);
+    window.removeEventListener(THEME_EVENT, handler);
+  };
+}
+
+function getThemeSnapshot(): string {
+  if (typeof window === 'undefined') return 'dark';
+  return localStorage.getItem(THEME_KEY) === 'light' ? 'light' : 'dark';
+}
+
+function getThemeServerSnapshot(): string {
+  return 'dark';
+}
+
 export default function Navbar() {
   const pathname = usePathname();
-  const [isOpen, setIsOpen] = useState(false);
+  const [openForPath, setOpenForPath] = useState<string | null>(null);
   const [scrolled, setScrolled] = useState(false);
-  const [currentTheme, setCurrentTheme] = useState('dark');
+  const currentTheme = useSyncExternalStore(subscribeTheme, getThemeSnapshot, getThemeServerSnapshot);
   const { lang, toggleLang, t } = useLanguage();
+
+  const isOpen = openForPath === pathname;
 
   const fullNavItems = [
     { num: '01', path: '/', label: t.nav.home },
@@ -22,17 +47,15 @@ export default function Navbar() {
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 20);
-    window.addEventListener('scroll', onScroll);
-
-    // Muat tema dari localStorage
-    const savedTheme = localStorage.getItem('theme') || 'dark';
-    setCurrentTheme(savedTheme);
-    document.documentElement.setAttribute('data-theme', savedTheme);
-
+    onScroll();
+    window.addEventListener('scroll', onScroll, { passive: true });
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
-  // Lock body scroll saat fullscreen menu terbuka
+  useEffect(() => {
+    document.documentElement.setAttribute('data-theme', currentTheme);
+  }, [currentTheme]);
+
   useEffect(() => {
     if (isOpen) {
       document.body.style.overflow = 'hidden';
@@ -44,31 +67,29 @@ export default function Navbar() {
     };
   }, [isOpen]);
 
-  // Tutup menu saat rute berubah atau tombol Escape ditekan
-  useEffect(() => {
-    setIsOpen(false);
-  }, [pathname]);
-
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') setIsOpen(false);
+      if (e.key === 'Escape') setOpenForPath(null);
     };
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, []);
 
   const selectTheme = (themeId: string) => {
-    setCurrentTheme(themeId);
     document.documentElement.setAttribute('data-theme', themeId);
-    localStorage.setItem('theme', themeId);
+    localStorage.setItem(THEME_KEY, themeId);
+    window.dispatchEvent(new Event(THEME_EVENT));
+  };
+
+  const toggleMenu = () => {
+    setOpenForPath((prev) => (prev === pathname ? null : pathname));
   };
 
   return (
     <>
-      {/* Top Floating / Fixed Bar */}
       <header className={`${styles.header} ${scrolled ? styles.scrolled : ''}`}>
         <div className={styles.headerInner}>
-          <Link href="/" className={styles.logoGroup} onClick={() => setIsOpen(false)}>
+          <Link href="/" className={styles.logoGroup} onClick={() => setOpenForPath(null)}>
             <span className={styles.logoMonogram}>
               R<span>.</span>
             </span>
@@ -81,14 +102,29 @@ export default function Navbar() {
                   exit={{ opacity: 0, x: -12 }}
                   transition={{ duration: 0.3 }}
                 >
-                  rzq / muhammad rozaq ma'ruf
+                  rzq / muhammad rozaq ma&apos;ruf
                 </motion.span>
               )}
             </AnimatePresence>
           </Link>
 
+          <nav className={styles.desktopQuickNav} aria-label="Primary navigation">
+            {fullNavItems.slice(1).map((item) => {
+              const isActive =
+                pathname === item.path || (item.path === '/work' && pathname.startsWith('/work'));
+              return (
+                <Link
+                  key={item.path}
+                  href={item.path}
+                  className={`${styles.desktopLink} ${isActive ? styles.desktopLinkActive : ''}`}
+                >
+                  {item.label}
+                </Link>
+              );
+            })}
+          </nav>
+
           <div className={styles.rightActions}>
-            {/* Language Switch Button (EN / ID) */}
             <button
               type="button"
               onClick={toggleLang}
@@ -99,7 +135,6 @@ export default function Navbar() {
               <span>{lang === 'en' ? 'EN' : 'ID'}</span>
             </button>
 
-            {/* Theme Toggle Button */}
             <button
               type="button"
               onClick={() => selectTheme(currentTheme === 'dark' ? 'light' : 'dark')}
@@ -112,10 +147,9 @@ export default function Navbar() {
               </span>
             </button>
 
-            {/* Hamburger / Bento Morphing Button (Inspirasi itssharl.ee) */}
             <button
               type="button"
-              onClick={() => setIsOpen(!isOpen)}
+              onClick={toggleMenu}
               className={`${styles.menuToggleBtn} ${isOpen ? styles.menuOpen : ''}`}
               aria-label={isOpen ? 'Close navigation menu' : 'Open navigation menu'}
               aria-expanded={isOpen}
@@ -162,11 +196,13 @@ export default function Navbar() {
         </div>
       </header>
 
-      {/* Fullscreen Overlay Menu Drawer (Inspirasi itssharl.ee) */}
       <AnimatePresence>
         {isOpen && (
           <motion.div
             className={styles.overlay}
+            role="dialog"
+            aria-modal="true"
+            aria-label="Site navigation"
             initial={{ opacity: 0, clipPath: 'inset(0% 0% 100% 0%)' }}
             animate={{ opacity: 1, clipPath: 'inset(0% 0% 0% 0%)' }}
             exit={{ opacity: 0, clipPath: 'inset(0% 0% 100% 0%)' }}
@@ -181,8 +217,8 @@ export default function Navbar() {
                     initial={{ opacity: 0, y: 35 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{
-                      delay: 0.12 + idx * 0.07,
-                      duration: 0.55,
+                      delay: 0.1 + idx * 0.06,
+                      duration: 0.5,
                       ease: [0.16, 1, 0.3, 1],
                     }}
                   >
@@ -190,7 +226,7 @@ export default function Navbar() {
                     <Link
                       href={item.path}
                       className={`${styles.navItemTitle} ${pathname === item.path ? styles.activeNavItemTitle : ''}`}
-                      onClick={() => setIsOpen(false)}
+                      onClick={() => setOpenForPath(null)}
                     >
                       {item.label}
                     </Link>
@@ -198,12 +234,11 @@ export default function Navbar() {
                 ))}
               </nav>
 
-              {/* Social / Portfolio Links at Bottom */}
               <motion.div
                 className={styles.socialFooter}
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.42, duration: 0.5 }}
+                transition={{ delay: 0.36, duration: 0.45 }}
               >
                 <a
                   href="https://www.instagram.com/rozaq.mrf"

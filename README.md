@@ -1,36 +1,35 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Muhammad Rozaq Ma'ruf · Portfolio
 
-## Getting Started
+Personal portfolio of **Muhammad Rozaq Ma'ruf** — UI/UX Designer & Full-Stack Developer studying Informatics Engineering at **Electronic Engineering Polytechnic Institute of Surabaya (PENS)** and interning at **Pelindo Solusi Digital (PSD) / PT ILCS**.
 
-First, run the development server:
+## Highlights
+
+- **Editorial Design Language**: Built with a tailored typography pairing (*Bricolage Grotesque*, *Instrument Serif*, *Inter*, and *JetBrains Mono*) via `next/font/google`.
+- **Full Bilingual Localization (`EN` / `ID`)**: Synchronized language switching across Home, Work Index, 5 in-depth Case Studies, About, Toolkit, Interactive Workspace Blueprint, Photo Gallery, and Contact.
+- **Dual Theme System (`Dark` / `Light`)**: Zero-flash theme initialization with WCAG AA contrast tokens across all surfaces and interactive blueprints.
+- **5 Deep-Dive Case Studies**: Complete with operational *Before vs After* workflow comparisons, architecture pipelines, and outcome metrics (`Tanos ERP`, `E-Reserv`, `BALANG`, `Monitoring Toren`, `Focusly`).
+- **Accessible & Motion-Aware**: Semantic heading hierarchy, keyboard-operable modals and desk map, `:focus-visible` indicators, and `@media (prefers-reduced-motion: reduce)` support.
+
+## Tech Stack
+
+- **Framework**: Next.js 16 (App Router) & React 19
+- **Language**: TypeScript 5
+- **Motion**: Framer Motion 12
+- **Styling**: CSS Modules & CSS Custom Properties
+- **SEO**: Metadata API, OpenGraph, `sitemap.xml`, `robots.txt`
+
+## Local Development
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open `http://localhost:3000` in your browser.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Quality Checks
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+```bash
+npm run lint
+npm run build
+```

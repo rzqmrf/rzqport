@@ -1,26 +1,43 @@
 .grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(2, 1fr);
   gap: 28px;
 }
 
 .card {
-  border-radius: 14px;
+  border-radius: 16px;
   overflow: hidden;
   border: 1px solid var(--border);
   background: var(--bg-elevated);
-  transition: transform 0.15s ease-out, box-shadow 0.4s ease;
+  transition: transform 0.2s ease-out, border-color 0.35s ease, box-shadow 0.4s ease;
   will-change: transform;
+  display: flex;
+  flex-direction: column;
+}
+
+.cardLead {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: 1.25fr 1fr;
+  align-items: stretch;
 }
 
 .card:hover {
-  box-shadow: 0 24px 48px -12px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(255, 255, 255, 0.08);
+  border-color: color-mix(in srgb, var(--accent) 45%, var(--border));
+  box-shadow: 0 24px 48px -16px rgba(0, 0, 0, 0.28);
 }
 
 .cardImage {
   position: relative;
   aspect-ratio: 16/10;
   overflow: hidden;
+  display: block;
+  background: var(--bg);
+}
+
+.cardLead .cardImage {
+  aspect-ratio: auto;
+  min-height: 340px;
 }
 
 .cardImage img {
@@ -28,70 +45,84 @@
 }
 
 .card:hover .cardImage img {
-  transform: scale(1.05);
+  transform: scale(1.04);
 }
 
 .cardOverlay {
   position: absolute;
   inset: 0;
-  background: linear-gradient(to top, rgba(6, 6, 8, 0.5) 0%, transparent 60%);
+  background: linear-gradient(to top, rgba(6, 6, 8, 0.55) 0%, transparent 55%);
   display: flex;
   align-items: flex-end;
   padding: 20px;
+  pointer-events: none;
 }
 
 .cardNum {
   font-family: var(--display);
-  font-size: 48px;
+  font-size: 44px;
   font-weight: 800;
-  color: rgba(255, 255, 255, 0.08);
+  color: rgba(255, 255, 255, 0.32);
   letter-spacing: -0.04em;
   line-height: 1;
 }
 
 .cardBody {
-  padding: 24px;
+  padding: 28px;
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  justify-content: space-between;
+  gap: 18px;
+  flex: 1;
+}
+
+.cardLead .cardBody {
+  padding: 36px 34px;
 }
 
 .cardTop {
   display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  gap: 12px;
-}
-
-.cardTitle {
-  font-size: 22px;
-  font-weight: 700;
-  letter-spacing: -0.02em;
-  line-height: 1.1;
+  flex-direction: column;
+  gap: 8px;
 }
 
 .cardCat {
   font-family: var(--mono);
   font-size: 10px;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
   color: var(--accent);
-  white-space: nowrap;
-  padding-top: 4px;
+}
+
+.cardTitle {
+  font-size: 24px;
+  font-weight: 700;
+  letter-spacing: -0.025em;
+  line-height: 1.1;
+}
+
+.cardLead .cardTitle {
+  font-size: clamp(26px, 3.2vw, 34px);
+}
+
+.cardTitle a:hover {
+  color: var(--accent);
 }
 
 .cardDesc {
-  font-size: 14px;
+  font-size: 15px;
   color: var(--text-muted);
-  line-height: 1.6;
+  line-height: 1.65;
 }
 
 .cardFooter {
   display: flex;
   justify-content: space-between;
-  align-items: center;
+  align-items: flex-end;
+  flex-wrap: wrap;
   gap: 16px;
-  margin-top: 4px;
+  margin-top: auto;
+  padding-top: 8px;
 }
 
 .tags {
@@ -101,15 +132,20 @@
 }
 
 .cardLink {
-  font-size: 13px;
+  font-family: var(--mono);
+  font-size: 12px;
   font-weight: 500;
-  color: var(--text-mid);
+  color: var(--text);
   white-space: nowrap;
-  transition: color 0.3s ease;
+  padding: 6px 0;
+  transition: color 0.25s ease, transform 0.25s ease;
+  display: inline-flex;
+  align-items: center;
 }
 
 .cardLink:hover {
-  color: var(--text);
+  color: var(--accent);
+  transform: translateX(3px);
 }
 
 .allProjectsWrapper {
@@ -118,17 +154,21 @@
   justify-content: center;
 }
 
-@media (max-width: 1024px) {
-  .grid {
-    grid-template-columns: 1fr 1fr;
-  }
-}
-
-@media (max-width: 640px) {
+@media (max-width: 860px) {
   .grid {
     grid-template-columns: 1fr;
   }
-  .allProjectsWrapper {
-    margin-top: 36px;
+
+  .cardLead {
+    grid-template-columns: 1fr;
+  }
+
+  .cardLead .cardImage {
+    aspect-ratio: 16/10;
+    min-height: 0;
+  }
+
+  .cardLead .cardBody {
+    padding: 24px;
   }
 }

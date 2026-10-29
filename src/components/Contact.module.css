@@ -1,20 +1,18 @@
 .section {
-  padding: clamp(100px, 14vh, 200px) 0;
-  background: var(--bg-elevated);
-  border-top: 1px solid var(--border);
+  padding: clamp(80px, 12vh, 160px) 0;
+  background: var(--bg);
 }
 
-/* Ensure wrap has relative positioning for cursor trailing coordinates */
 :global(.wrap) {
   position: relative;
 }
 
 .header {
-  margin-bottom: 80px;
+  margin-bottom: 64px;
 }
 
 .headline {
-  font-size: clamp(48px, 7vw, 92px);
+  font-size: clamp(44px, 7vw, 88px);
   font-weight: 800;
   letter-spacing: -0.04em;
   line-height: 0.95;
@@ -28,6 +26,14 @@
   color: var(--accent);
 }
 
+.subtitle {
+  margin-top: 20px;
+  max-width: 520px;
+  font-size: 16px;
+  color: var(--text-muted);
+  line-height: 1.65;
+}
+
 .list {
   border-top: 1px solid var(--border);
 }
@@ -36,16 +42,16 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 44px 0;
+  padding: 40px 12px;
   border-bottom: 1px solid var(--border);
-  transition: padding-left 0.4s var(--ease-out), background-color 0.3s ease;
+  transition: padding-left 0.35s var(--ease-out), background-color 0.3s ease;
   position: relative;
   z-index: 2;
 }
 
 .row:hover {
-  padding-left: 20px;
-  background-color: rgba(255, 255, 255, 0.005);
+  padding-left: 24px;
+  background-color: var(--surface-hover);
 }
 
 .rowLeft {
@@ -65,25 +71,31 @@
   text-transform: uppercase;
   letter-spacing: 0.12em;
   color: var(--text-muted);
-  margin-left: 40px;
+  margin-left: 36px;
 }
 
 .rowRight {
   display: flex;
   align-items: center;
-  gap: 40px;
+  gap: 28px;
+}
+
+.valueLink {
+  text-decoration: none;
 }
 
 .value {
   font-family: var(--display);
-  font-size: clamp(20px, 3.5vw, 36px);
+  font-size: clamp(18px, 3.2vw, 34px);
   font-weight: 700;
   letter-spacing: -0.025em;
   color: var(--text-mid);
   transition: color 0.3s ease;
+  word-break: break-word;
 }
 
-.row:hover .value {
+.row:hover .value,
+.valueLink:hover .value {
   color: var(--text);
 }
 
@@ -100,55 +112,18 @@
   color: var(--accent);
 }
 
-/* Floating Card Styles */
-.floatingPreview {
-  position: absolute;
-  width: 220px;
-  height: 280px;
-  pointer-events: none;
-  z-index: 5;
-  border-radius: 14px;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  overflow: hidden;
-  background: var(--bg-elevated);
-  box-shadow: 
-    0 30px 60px -15px rgba(0, 0, 0, 0.8),
-    0 0 50px 0 rgba(139, 92, 246, 0.1);
-  display: flex;
-  flex-direction: column;
-}
-
-.previewImg {
-  position: relative;
-  width: 100%;
-  flex-grow: 1;
-}
-
-.previewLabel {
-  background: #0f0f14;
-  padding: 10px 14px;
-  border-top: 1px solid var(--border);
-  font-family: var(--mono);
-  font-size: 9px;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--text-muted);
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
 .copyBtn {
-  background: var(--bg-card);
-  border: 1px solid var(--border);
+  background: var(--bg-elevated);
+  border: 1px solid var(--border-strong);
   color: var(--text);
-  padding: 8px 16px;
+  min-height: 44px;
+  padding: 8px 18px;
   border-radius: 100px;
   font-family: var(--mono);
   font-size: 11px;
   letter-spacing: 0.05em;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: all 0.25s ease;
   white-space: nowrap;
 }
 
@@ -159,24 +134,128 @@
   transform: translateY(-2px);
 }
 
+/* ======= QUICK BRIEF COMPOSER ======= */
+.formBlock {
+  margin-top: 88px;
+  padding: 44px;
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  display: grid;
+  grid-template-columns: 0.9fr 1.3fr;
+  gap: 48px;
+  align-items: start;
+}
+
+.formTitle {
+  font-size: clamp(26px, 3.5vw, 36px);
+  line-height: 1.05;
+  margin-bottom: 14px;
+}
+
+.formDesc {
+  font-size: 15px;
+  color: var(--text-muted);
+  line-height: 1.65;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.fieldRow {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.fieldLabel {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-mid);
+}
+
+.input,
+.textarea {
+  width: 100%;
+  background: var(--bg);
+  border: 1px solid var(--border-strong);
+  border-radius: 12px;
+  padding: 13px 16px;
+  font-family: var(--body);
+  font-size: 15px;
+  color: var(--text);
+  transition: border-color 0.25s ease;
+}
+
+.input::placeholder,
+.textarea::placeholder {
+  color: var(--text-muted);
+  opacity: 0.7;
+}
+
+.input:hover,
+.textarea:hover {
+  border-color: var(--text-muted);
+}
+
+.input:focus,
+.textarea:focus {
+  border-color: var(--accent);
+}
+
+.textarea {
+  resize: vertical;
+  min-height: 112px;
+}
+
+.formFeedbackError {
+  font-size: 13px;
+  color: #EF4444;
+  font-weight: 500;
+}
+
+.formFeedbackSuccess {
+  font-size: 13px;
+  color: #10B981;
+  font-weight: 500;
+}
+
+.formActions {
+  display: flex;
+  justify-content: flex-start;
+}
+
 .toast {
   position: fixed;
   bottom: 40px;
-  right: 40px;
+  right: 104px;
   background: #10B981;
   color: #ffffff;
   padding: 14px 24px;
   border-radius: 100px;
-  font-family: var(--sans);
+  font-family: var(--body);
   font-size: 13px;
   font-weight: 600;
-  box-shadow: 0 20px 40px -10px rgba(16, 185, 129, 0.5);
+  box-shadow: 0 20px 40px -10px rgba(16, 185, 129, 0.45);
   z-index: 9999999;
 }
 
-@media (max-width: 860px) {
-  .floatingPreview {
-    display: none; /* Hide floating card on touch devices/tablets for performance */
+@media (max-width: 900px) {
+  .formBlock {
+    grid-template-columns: 1fr;
+    gap: 28px;
+    padding: 28px 22px;
   }
 }
 
@@ -185,25 +264,30 @@
     flex-direction: column;
     align-items: flex-start;
     gap: 16px;
-    padding: 32px 0;
+    padding: 28px 0;
   }
-  
+
   .row:hover {
     padding-left: 0;
   }
-  
+
   .rowRight {
     width: 100%;
     justify-content: space-between;
     gap: 16px;
+    flex-wrap: wrap;
   }
-  
+
   .label {
     margin-left: 16px;
   }
 
+  .fieldRow {
+    grid-template-columns: 1fr;
+  }
+
   .toast {
-    bottom: 24px;
+    bottom: 88px;
     right: 20px;
     left: 20px;
     text-align: center;

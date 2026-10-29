@@ -10,7 +10,9 @@ export default function Footer() {
     <footer className={styles.footer}>
       <div className="wrap">
         <div className={styles.top}>
-          <Link href="/" className={styles.logo}>rozaq<span>.</span></Link>
+          <Link href="/" className={styles.logo}>
+            rozaq<span>.</span>
+          </Link>
           <div className={styles.nav}>
             <Link href="/work">{t.nav.work}</Link>
             <Link href="/about">{t.nav.about}</Link>
@@ -18,7 +20,7 @@ export default function Footer() {
           </div>
         </div>
         <div className={styles.bottom}>
-          <span>© 2026 Muhammad Rozaq Ma'ruf</span>
+          <span>© 2026 Muhammad Rozaq Ma&apos;ruf</span>
           <span>{t.footer.designedBuilt}</span>
         </div>
       </div>

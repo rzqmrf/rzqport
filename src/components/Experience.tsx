@@ -15,7 +15,10 @@ export default function Experience() {
     <section id="experience" className="wrap">
       <div className="section-head">
         <div className="eyebrow">{t.experience.eyebrow}</div>
-        <h2 className="section-title">{t.experience.title}</h2>
+        <h2 className="section-title">
+          {t.experience.title}{' '}
+          <span className="section-title-serif">{t.experience.titleSerif}</span>.
+        </h2>
       </div>
 
       <div className={styles.timeline}>
@@ -44,6 +47,7 @@ export default function Experience() {
                       src={logoSrc}
                       alt={item.company}
                       fill
+                      sizes="72px"
                       style={{ objectFit: 'contain' }}
                       onError={() => {
                         setFailedLogos((prev) => ({ ...prev, [i]: true }));
